@@ -30,7 +30,7 @@ int main(int argc, char** argv){
     int count = size - 1, block_size = size;
     int* child_id;
     auto start = chrono::steady_clock::now();
-    int cc = pvm_spawn("/home/obada/CLionProjects/Project/pvm/single_row", nullptr, 0, "", count, child_id);
+    int cc = pvm_spawn("/bin/single_row", nullptr, 0, "", count, child_id);
     if ( cc != count ) {
         cout << "\nFailed to spwan required children\n...Exit...Press any Key to exit\n";
         pvm_exit();
