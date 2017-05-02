@@ -26,7 +26,6 @@ int TextDataReader::read(string file_path, double**& mat, double*& vec) {
     bool readingMat = true;
     int currentRow = 0;
     for ( int i = 0; i < len; ++i ) {
-        cout << lines[i] << endl;
         if ( lines[i] == "matrix:" ) {
             readingMat = true;
         } else if ( lines[i] == "vector:" ) {

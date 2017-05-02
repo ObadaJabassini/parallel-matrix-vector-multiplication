@@ -14,42 +14,65 @@ using namespace std;
 //    }
 //};
 
-int main(int argc, char** argv){
-    auto reader = make_shared<TextDataReader>();
-    char* groupName = "single_row";
+int main(int argc, char** argv) {
+    char* groupName = "multiple_row";
     double** matrix;
     double* vector;
-    if(argc != 3){
-        //throw NotEnoughParameterException();
-        exit(-1);
-    }
-    int size = reader->read(argv[1], matrix, vector);
-    int offset = atoi(argv[3]);
-    if(size % offset != 0){
-        double** temp = new double*[size + size % offset];
-        for ( int i = 0; i < size; ++i ) {
-            for ( int j = 0; j < size; ++j ) {
-                temp[i][j] = matrix[i][j];
-            }
-        }
-        for ( int k = size; k < size + size % offset; ++k ) {
-            for ( int i = 0; i < size; ++i ) {
-                temp[k][i] = 0;
-            }
-        }
-        matrix = temp;
-    }
-    int rows = size + size % offset, cols = size;
+    pvm_catchout(stdout);
     int tid = pvm_mytid();
     int parent_tid = pvm_parent();
     bool is_parent = (parent_tid == PvmNoParent) || (parent_tid == PvmParentNotSet);
+    int size, count, offset, rows, cols, num_of_process;
     int* child_id;
-    int num_of_process = rows / offset;
     auto start = chrono::steady_clock::now();
-    int cc = pvm_spawn("/home/obada/CLionProjects/Project/pvm/single_row", nullptr, 0, "", num_of_process - 1, child_id);
-    if ( cc != num_of_process - 1 ) {
-        cout << "\nFailed to spwan required children\n...Exit...Press any Key to exit\n";
-        pvm_exit();
+    if ( is_parent ) {
+        auto reader = make_shared<TextDataReader>();
+        size = reader->read(argv[1], matrix, vector);
+        count = size - 1;
+        offset = atoi(argv[3]);
+        child_id = new int[count];
+        start = chrono::steady_clock::now();
+        rows = size + size % offset;
+        cols = size;
+        num_of_process = rows / offset;
+        int cc = pvm_spawn("/home/obada/CLionProjects/Project/pvm/multiple_rows", nullptr, 0, "", num_of_process - 1,
+                           child_id);
+        if ( cc != num_of_process - 1 ) {
+            cout << "\nFailed to spwan required children\n...Exit...Press any Key to exit\n";
+            pvm_exit();
+        }
+        pvm_initsend(PvmDataDefault);
+        pvm_pkint(&size, 1, 1);
+        pvm_pkint(&count, 1, 1);
+        pvm_pkint(&offset, 1, 1);
+        pvm_pkdouble(vector, size, 1);
+        pvm_mcast(child_id, count, 1);
+        if ( size % offset != 0 ) {
+            double** temp = new double* [size + size % offset];
+            for ( int l = 0; l < size + size % offset; ++l ) {
+                temp[l] = new double[size];
+            }
+            for ( int i = 0; i < size; ++i ) {
+                for ( int j = 0; j < size; ++j ) {
+                    temp[i][j] = matrix[i][j];
+                }
+            }
+            for ( int k = size; k < size + size % offset; ++k ) {
+                for ( int i = 0; i < size; ++i ) {
+                    temp[k][i] = 0;
+                }
+            }
+            matrix = temp;
+        }
+    } else {
+        pvm_recv(parent_tid, 1);
+        pvm_upkint(&size, 1, 1);
+        pvm_upkint(&count, 1, 1);
+        pvm_upkint(&offset, 1, 1);
+        pvm_upkdouble(vector, size, 1);
+        rows = size + size % offset;
+        cols = size;
+        num_of_process = num_of_process = rows / offset;
     }
     int gid = pvm_joingroup(groupName);
     pvm_barrier(groupName, num_of_process);
@@ -84,15 +107,9 @@ int main(int argc, char** argv){
         auto result = new double[rows];
         pvm_gather(result, send, offset, PVM_DOUBLE, 3, groupName, allRoot);
         auto end = chrono::steady_clock::now();
-        TextDataWriter().write(argv[2], result, size, chrono::duration <double, milli> (end - start).count());
+        TextDataWriter().write(argv[2], result, size, chrono::duration<double, milli>(end - start).count());
     }
     pvm_barrier(groupName, groupSize);
     pvm_lvgroup(groupName);
     pvm_exit();
-    delete groupName;
-    delete vector;
-    for ( int l = 0; l < size; ++l ) {
-        delete matrix[l];
-    }
-    delete matrix;
 }
