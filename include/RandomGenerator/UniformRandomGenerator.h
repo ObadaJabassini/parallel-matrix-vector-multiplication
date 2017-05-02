@@ -5,15 +5,17 @@
 #ifndef PROJECT_UNIFORMRANDOMGENERATOR_H
 #define PROJECT_UNIFORMRANDOMGENERATOR_H
 
-#include <bits/unique_ptr.h>
+#include <memory>
+#include <random>
 #include "RandomGenerator.h"
 
-template <class T>
-class UniformRandomGenerator : public RandomGenerator{
+
+template <class T = double>
+class UniformRandomGenerator : public RandomGenerator<T>{
 private:
-    std::unique_ptr<std::uniform_int_distribution<T>> uniform_dist;
+    std::shared_ptr<std::uniform_int_distribution<T>> uniform_dist;
 public:
-    UniformRandomGenerator(uint32_t seed = rand() % 1000, T low, T high);
+    UniformRandomGenerator(uint32_t seed = rand() % 1000, T low = T(), T high = T());
     UniformRandomGenerator(uint32_t seed = rand() % 1000);
 
     T generate() override;

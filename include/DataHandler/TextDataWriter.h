@@ -10,7 +10,7 @@
 
 class TextDataWriter : public DataWriter{
 public:
-    void write(std::string file_path, double* vec, int size, double time) override;
+    virtual void write(std::string file_path, double* vec, int size, double time) override;
 };
 
 

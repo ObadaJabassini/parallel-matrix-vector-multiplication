@@ -6,21 +6,22 @@
 #define PROJECT_NORMALRANDOMGENERATOR_H
 
 
-#include <bits/unique_ptr.h>
+#include <memory>
 #include "RandomGenerator.h"
 
 template <class T>
 class NormalRandomGenerator : public RandomGenerator<T>{
 private:
-    std::unique_ptr<normal_distribution<T>> normal_dist;
+    normal_distribution<T>* normal_dist;
 public:
-    NormalRandomGenerator(uint32_t seed, float mean, float stddeviation);
+    NormalRandomGenerator(uint32_t seed, float mean = 1, float stddeviation = 0);
 
     T generate() override;
 
     void generate(T*& arr, int elements) override;
 
     void generate(T**& mat, int rows, int cols) override;
+    ~NormalRandomGenerator();
 };
 
 

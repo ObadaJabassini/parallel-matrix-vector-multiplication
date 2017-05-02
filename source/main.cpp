@@ -1,13 +1,14 @@
 #include <iostream>
-#include <pvm3.h>
+#include <memory>
+#include <string>
+#include "../include/Serial/SerialMatrixMultiplier.h"
+#include "../include/Serial/MatrixMultiplier.h"
+#include <DataHandler/TextDataReader.h>
 
 using namespace std;
 
 int main(int argc, char** argv) {
-    char* groupName = "all";
-    int myId = pvm_mytid();
-    int myParent = pvm_parent();
-    bool isParent = (myParent == PvmNoParent) || (myParent == PvmParentNotSet);
-    pvm_exit();
+    auto multiplier = make_shared<SerialMatrixMultiplier>(string("/home/obada/data.txt"));
+    multiplier->multiply(string("/home/obada/results.txt"));
     return 0;
 }

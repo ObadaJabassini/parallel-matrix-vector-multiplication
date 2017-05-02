@@ -1,6 +1,8 @@
-#include <bits/shared_ptr.h>
+#include <memory.h>
 #include <fstream>
 #include <chrono>
+#include <memory>
+#include <iostream>
 #include "../../include/DataHandler/TextDataReader.h"
 #include "../../include/DataHandler/TextDataWriter.h"
 #include "../../include/Serial/MatrixMultiplier.h"

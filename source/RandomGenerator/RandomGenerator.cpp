@@ -4,6 +4,7 @@
 
 #include "../../include/RandomGenerator/RandomGenerator.h"
 
-RandomGenerator::RandomGenerator(uint32_t seed) {
+template <class T>
+RandomGenerator<T>::RandomGenerator(uint32_t seed) {
     range.seed(seed);
 }

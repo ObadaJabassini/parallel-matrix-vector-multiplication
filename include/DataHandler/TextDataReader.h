@@ -17,7 +17,7 @@ private:
 
     static std::vector<std::string> split(const std::string& s, char delim);
 public:
-    int read(string file_path, double**& mat, double*& vec) override;
+    virtual int read(string file_path, double**& mat, double*& vec) override;
 };
 
 

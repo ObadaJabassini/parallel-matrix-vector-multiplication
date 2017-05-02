@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
+#include <iostream>
 #include "../../include/DataHandler/TextDataReader.h"
 
 using namespace std;
@@ -10,12 +11,13 @@ using namespace std;
 int TextDataReader::read(string file_path, double**& mat, double*& vec) {
     vector<string> lines;
     std::ifstream input(file_path);
-    for ( std::string line; getline(input, line); ) {
+    std::string line;
+    for ( ; getline(input, line); ) {
         std::transform(line.begin(), line.end(), line.begin(), ::tolower);
         lines.push_back(line);
     }
     unsigned long len = lines.size();
-    int size = ( int ) (len - 2);
+    int size = ( int ) (len - 3);
     mat = new double* [size];
     vec = new double[size];
     for ( int j = 0; j < size; ++j ) {
@@ -24,6 +26,7 @@ int TextDataReader::read(string file_path, double**& mat, double*& vec) {
     bool readingMat = true;
     int currentRow = 0;
     for ( int i = 0; i < len; ++i ) {
+        cout << lines[i] << endl;
         if ( lines[i] == "matrix:" ) {
             readingMat = true;
         } else if ( lines[i] == "vector:" ) {
