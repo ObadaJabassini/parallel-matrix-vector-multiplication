@@ -6,7 +6,7 @@
 #define PROJECT_SINGLECOLUMNMULTIPLIER_H
 
 #include <string>
-#include "../MatrixMultiplier.h"
+#include "../Serial/MatrixMultiplier.h"
 
 class SingleColumnMultiplier : public MatrixMultiplier{
 public:

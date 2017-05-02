@@ -1,6 +1,6 @@
 
 
-#include "MultipleRowMultiplier.h"
+#include "../../include/Pvm/MultipleRowMultiplier.h"
 
 MultipleRowMultiplier::MultipleRowMultiplier(const std::string& file_path, int rows) : MatrixMultiplier(file_path){
     this->rows = rows;

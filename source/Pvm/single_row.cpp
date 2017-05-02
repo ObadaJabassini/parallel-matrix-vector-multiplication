@@ -2,8 +2,8 @@
 #include <pvm3.h>
 #include <memory>
 #include <chrono>
-#include "../util/TextDataReader.h"
-#include "../util/TextDataWriter.h"
+#include "../../include/DataHandler/TextDataReader.h"
+#include "../../include/DataHandler/TextDataWriter.h"
 
 using namespace std;
 
@@ -14,12 +14,12 @@ using namespace std;
 //    }
 //};
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv){
     auto reader = make_shared<TextDataReader>();
     char* groupName = "single_row";
     double** matrix;
     double* vector;
-    if ( argc != 3 ) {
+    if(argc != 3){
         //throw NotEnoughParameterException();
         exit(-1);
     }
@@ -47,23 +47,26 @@ int main(int argc, char** argv) {
     if ( is_parent ) {
         int scatterCount = groupSize * block_size;
         auto scatterData = new double[scatterCount];
-        for ( int j = 0; j < size; ++j ) {
-            for ( int i = 0; i < size; ++i ) {
-                scatterData[i * size + j] = matrix[i][j];
+        for ( int i = 0; i < size; ++i ) {
+            for ( int j = 0; j < size; ++j ) {
+                scatterData[size * i + j] = matrix[i][j];
             }
         }
         pvm_scatter(rec, scatterData, block_size, PVM_DOUBLE, 2, groupName, allRoot);
     } else {
         pvm_scatter(rec, NULL, block_size, PVM_DOUBLE, 2, groupName, allRoot);
     }
-    auto send = new double[size];
+    double sum = 0;
     for ( int k = 0; k < size; ++k ) {
-        send[k] = rec[k] * vector[gid];
+        sum += rec[k] * vector[gid];
     }
-    pvm_reduce(PvmSum, send, size, PVM_DOUBLE, 4, groupName, allRoot);
-    if(is_parent){
+    if ( !is_parent )
+        pvm_gather(NULL, &sum, 1, PVM_DOUBLE, 3, groupName, allRoot);
+    else {
+        auto result = new double[size];
+        pvm_gather(result, &sum, 1, PVM_DOUBLE, 3, groupName, allRoot);
         auto end = chrono::steady_clock::now();
-        TextDataWriter().write(argv[2], send, size, chrono::duration<double, milli>(end - start).count());
+        TextDataWriter().write(argv[2], result, size, chrono::duration <double, milli> (end - start).count());
     }
     pvm_barrier(groupName, groupSize);
     pvm_lvgroup(groupName);

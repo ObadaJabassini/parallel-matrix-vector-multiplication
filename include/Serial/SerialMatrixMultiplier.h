@@ -6,7 +6,7 @@
 #define PROJECT_SERIALMATRIXMULTIPLIER_H
 
 
-#include "../MatrixMultiplier.h"
+#include "MatrixMultiplier.h"
 #include <string>
 
 class SerialMatrixMultiplier : public MatrixMultiplier{

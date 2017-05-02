@@ -2,7 +2,7 @@
 #define PROJECT_SINGLEROWMULTIPLIER_H
 
 
-#include "../MatrixMultiplier.h"
+#include "../Serial/MatrixMultiplier.h"
 
 class SingleRowMultiplier : public MatrixMultiplier{
 public:

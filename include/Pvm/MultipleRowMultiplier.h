@@ -6,7 +6,7 @@
 #define PROJECT_MULTIPLECOLUMNMULTIPLIER_H
 
 
-#include "../MatrixMultiplier.h"
+#include "../Serial/MatrixMultiplier.h"
 
 class MultipleRowMultiplier : public MatrixMultiplier{
 private:

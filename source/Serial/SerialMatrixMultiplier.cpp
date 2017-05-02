@@ -2,8 +2,8 @@
 #include <fstream>
 #include <chrono>
 #include "SerialMatrixMultiplier.h"
-#include "../util/TextDataReader.h"
-#include "../util/TextDataWriter.h"
+#include "../../include/DataHandler/TextDataReader.h"
+#include "../../include/DataHandler/TextDataWriter.h"
 
 SerialMatrixMultiplier::SerialMatrixMultiplier(std::string file_path) : MatrixMultiplier(file_path) {
 

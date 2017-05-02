@@ -2,7 +2,7 @@
 // Created by obada on 5/1/17.
 //
 
-#include "SingleColumnMultiplier.h"
+#include "../../include/Pvm/SingleColumnMultiplier.h"
 
 SingleColumnMultiplier::SingleColumnMultiplier(std::string file_path)
         : MatrixMultiplier(file_path) {

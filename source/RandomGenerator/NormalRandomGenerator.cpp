@@ -1,5 +1,5 @@
 
-#include "NormalRandomGenerator.h"
+#include "../../include/RandomGenerator/NormalRandomGenerator.h"
 
 NormalRandomGenerator::NormalRandomGenerator(uint32_t seed = rand() % 1000, float mean, float stddeviation) : RandomGenerator(seed){
     normal_dist = std::make_unique<std::normal_distribution>(mean, stddeviation);

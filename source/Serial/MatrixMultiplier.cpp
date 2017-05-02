@@ -2,7 +2,7 @@
 // Created by obada on 5/1/17.
 //
 
-#include "MatrixMultiplier.h"
+#include "../../include/Serial/MatrixMultiplier.h"
 
 
 MatrixMultiplier::MatrixMultiplier(std::string file_path) {
