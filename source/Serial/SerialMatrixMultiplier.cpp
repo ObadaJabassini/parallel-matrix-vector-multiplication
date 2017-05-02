@@ -1,9 +1,10 @@
 #include <bits/shared_ptr.h>
 #include <fstream>
 #include <chrono>
-#include "SerialMatrixMultiplier.h"
 #include "../../include/DataHandler/TextDataReader.h"
 #include "../../include/DataHandler/TextDataWriter.h"
+#include "../../include/Serial/MatrixMultiplier.h"
+#include "../../include/Serial/SerialMatrixMultiplier.h"
 
 SerialMatrixMultiplier::SerialMatrixMultiplier(std::string file_path) : MatrixMultiplier(file_path) {
 
