@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.6)
 project(Project)
 set(CMAKE_CXX_STANDARD 14)
-set(SOURCE_FILES source/main.cpp source/RandomGenerator/RandomGenerator.cpp source/RandomGenerator/NormalRandomGenerator.cpp source/RandomGenerator/UniformRandomGenerator.cpp source/DataHandler/DataReader.cpp source/DataHandler/DataWriter.cpp source/DataHandler/TextDataReader.cpp source/DataHandler/TextDataWriter.cpp source/Serial/MatrixMultiplier.cpp source/Pvm/SingleRowMultiplier.cpp source/Serial/SerialMatrixMultiplier.cpp source/Pvm/SingleColumnMultiplier.cpp source/Pvm/MultipleRowMultiplier.cpp source/DataHandler/RandomDataWriter.cpp)
+set(SOURCE_FILES source/main.cpp source/RandomGenerator/RandomGenerator.cpp source/RandomGenerator/NormalRandomGenerator.cpp source/RandomGenerator/UniformRandomGenerator.cpp source/DataHandler/DataReader.cpp source/DataHandler/DataWriter.cpp source/DataHandler/TextDataReader.cpp source/DataHandler/TextDataWriter.cpp source/Serial/MatrixMultiplier.cpp source/Pvm/SingleRowMultiplier.cpp source/Serial/SerialMatrixMultiplier.cpp source/Pvm/SingleColumnMultiplier.cpp source/Pvm/MultipleRowMultiplier.cpp source/DataHandler/RandomDataWriter.cpp source/Pvm/Benchmarker.cpp)
 add_executable(Project ${SOURCE_FILES})
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/bin)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})

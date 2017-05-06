@@ -2,8 +2,8 @@
 #include <pvm3.h>
 #include <memory>
 #include <chrono>
-#include "DataHandler/TextDataReader.h"
-#include "DataHandler/TextDataWriter.h"
+#include <DataHandler/TextDataReader.h>
+#include <DataHandler/TextDataWriter.h>
 
 using namespace std;
 

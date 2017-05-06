@@ -3,10 +3,10 @@
 #include <chrono>
 #include <memory>
 #include <iostream>
-#include "../../include/DataHandler/TextDataReader.h"
-#include "../../include/DataHandler/TextDataWriter.h"
-#include "../../include/Serial/MatrixMultiplier.h"
-#include "../../include/Serial/SerialMatrixMultiplier.h"
+#include <DataHandler/TextDataReader.h>
+#include <DataHandler/TextDataWriter.h>
+#include <Serial/MatrixMultiplier.h>
+#include <Serial/SerialMatrixMultiplier.h>
 
 SerialMatrixMultiplier::SerialMatrixMultiplier(std::string file_path) : MatrixMultiplier(file_path) {
 
@@ -35,4 +35,21 @@ void SerialMatrixMultiplier::multiply(std::string result_file_path) {
     delete matrix;
 }
 
-
+string SerialMatrixMultiplier::multiply( bool justTime ) {
+    double** matrix;
+    double* vector;
+    auto reader = std::make_shared<TextDataReader>();
+    int size = reader->read(file_path, matrix, vector);
+    double* result = new double[size];
+    auto start = chrono::steady_clock::now();
+    for ( int i = 0; i < size; ++i ) {
+        result[i] = 0;
+        for ( int j = 0; j < size; ++j ) {
+            result[i] += matrix[i][j] * vector[j];
+        }
+    }
+    auto end = chrono::steady_clock::now();
+    if(justTime)
+        return std::to_string(chrono::duration <double, milli> (end - start).count());
+    throw exception();
+}

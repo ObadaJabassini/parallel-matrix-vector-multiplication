@@ -10,6 +10,7 @@ protected:
 public:
     MatrixMultiplier(std::string file_path);
     virtual void multiply(std::string result_file_path) = 0;
+    virtual std::string multiply(bool justTime = false) = 0;
 };
 
 

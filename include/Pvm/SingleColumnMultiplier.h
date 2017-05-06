@@ -13,6 +13,7 @@ public:
     SingleColumnMultiplier(std::string file_path);
 
     void multiply(std::string result_file_path) override;
+    std::string multiply(bool justTime = false) override;
 };
 
 

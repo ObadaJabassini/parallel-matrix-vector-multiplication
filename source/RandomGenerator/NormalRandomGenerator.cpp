@@ -1,5 +1,5 @@
 
-#include "../../include/RandomGenerator/NormalRandomGenerator.h"
+#include <RandomGenerator/NormalRandomGenerator.h>
 #include <memory>
 #include <random>
 

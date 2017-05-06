@@ -1,5 +1,5 @@
 
-#include "../../include/RandomGenerator/UniformRandomGenerator.h"
+#include <RandomGenerator/UniformRandomGenerator.h>
 
 template <class T>
 UniformRandomGenerator<T>::UniformRandomGenerator(uint32_t seed, T low, T high): RandomGenerator<T>(seed) {
