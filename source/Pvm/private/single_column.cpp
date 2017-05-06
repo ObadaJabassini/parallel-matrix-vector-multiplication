@@ -78,7 +78,7 @@ int main( int argc, char** argv ) {
     } else {
         pvm_scatter( rec, NULL, size + 1, PVM_DOUBLE, 2, groupName, allRoot );
     }
-    transform( rec, rec + size, vector, []( double element ) -> double { return element * rec[size]; } );
+    transform( rec, rec + size, vector, [&]( double element ) -> double { return element * rec[size]; } );
     pvm_reduce( PvmSum, vector, size, PVM_DOUBLE, 4, groupName, allRoot );
     if ( is_parent ) {
         auto end = chrono::steady_clock::now();
