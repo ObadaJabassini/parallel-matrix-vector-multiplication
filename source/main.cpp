@@ -1,14 +1,14 @@
 #include <iostream>
 #include <memory>
-#include <string>
-#include "../include/Serial/SerialMatrixMultiplier.h"
-#include "../include/Serial/MatrixMultiplier.h"
 #include <DataHandler/TextDataReader.h>
+#include <Serial/SerialMatrixMultiplier.h>
 
 using namespace std;
 
 int main(int argc, char** argv) {
-    auto multiplier = make_shared<SerialMatrixMultiplier>(string("/home/obada/data.txt"));
-    multiplier->multiply(string("/home/obada/results.txt"));
+    string input  = "/home/ojabassini/data.txt",
+           output = "/home/ojabassini/results.txt";
+    auto multiplier = make_shared<SerialMatrixMultiplier>(input);
+    multiplier->multiply(output);
     return 0;
 }

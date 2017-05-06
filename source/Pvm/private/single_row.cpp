@@ -31,7 +31,7 @@ int main(int argc, char** argv) {
         count = size - 1;
         child_id = new int[count];
         start = chrono::steady_clock::now();
-        int cc = pvm_spawn("/home/obada/CLionProjects/parallel-matrix-vector-multiplication/bin/single_row", NULL, 0, "", count, child_id);
+        int cc = pvm_spawn("/home/ojabassini/CLionProjects/parallel-matrix-vector-multiplication/bin/single_row", NULL, 0, "", count, child_id);
         if ( cc != count ) {
             cout << "\nFailed to spwan required children\n...Exit...Press any Key to exit\n";
             pvm_exit();

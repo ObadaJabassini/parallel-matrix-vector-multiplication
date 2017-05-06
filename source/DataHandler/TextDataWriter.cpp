@@ -12,6 +12,6 @@ void TextDataWriter::write(std::string file_path, double* vec, int size, double 
         file << vec[k] << (k == size - 1 ? "\n" : ",");
     }
     file << "time taken:" << endl;
-    file << time;
+    file << time << endl;
     file.close();
 }

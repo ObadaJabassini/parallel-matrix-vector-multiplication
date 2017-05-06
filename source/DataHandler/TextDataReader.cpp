@@ -31,7 +31,7 @@ int TextDataReader::read(string file_path, double**& mat, double*& vec) {
         } else if ( lines[i] == "vector:" ) {
             readingMat = false;
         } else {
-            auto row = TextDataReader::split(lines[i], ',');
+            auto row = TextDataReader::split(lines[i], ' ');
             if(readingMat) {
                 for ( int j = 0; j < size; ++j ) {
                     mat[currentRow][j] = stod(row[j]);

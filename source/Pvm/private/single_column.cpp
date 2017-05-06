@@ -16,9 +16,9 @@ using namespace std;
 //};
 
 int main( int argc, char** argv ) {
+    pvm_catchout(stdout);
     char* groupName = "single_column";
     int tid = pvm_mytid();
-    pvm_catchout( stdout );
     int parent_tid = pvm_parent();
     bool is_parent = (parent_tid == PvmNoParent) || (parent_tid == PvmParentNotSet);
     int size;
@@ -32,7 +32,7 @@ int main( int argc, char** argv ) {
                              vector );
         int* child_id = new int[size - 1];
         start = chrono::steady_clock::now();
-        int cc = pvm_spawn( "/home/obada/CLionProjects/parallel-matrix-vector-multiplication/bin/single_column",
+        int cc = pvm_spawn( "/home/ojabassini/CLionProjects/parallel-matrix-vector-multiplication/bin/single_column",
                             NULL,
                             0,
                             "",
@@ -48,7 +48,7 @@ int main( int argc, char** argv ) {
                    1,
                    1 );
         pvm_mcast( child_id,
-                   size - 1,
+                   cc,
                    1 );
     } else {
         pvm_recv( parent_tid,
@@ -65,22 +65,27 @@ int main( int argc, char** argv ) {
         allRoot = pvm_getinst( groupName, tid );
     else
         allRoot = pvm_getinst( groupName, parent_tid );
-    int* rec = new int[size + 1];
+    double* rec = new double[size + 1];
     if ( is_parent ) {
         auto scatterData = new double[size * size + size];
         for ( int i = 0; i < size; ++i ) {
             for ( int j = 0; j < size; ++j ) {
-                scatterData[i * size + j] = matrix[i][j];
+                scatterData[i * (size + 1) + j] = matrix[j][i];
             }
-            scatterData[i * size + size] = vector[i];
+            scatterData[(i + 1) * size + i] = vector[i];
         }
         pvm_scatter( rec, scatterData, size + 1, PVM_DOUBLE, 2, groupName, allRoot );
     } else {
         pvm_scatter( rec, NULL, size + 1, PVM_DOUBLE, 2, groupName, allRoot );
     }
-    transform( rec, rec + size, vector, [&]( double element ) -> double { return element * rec[size]; } );
+    for ( int k = 0; k < size; ++k ) {
+        vector[k] = rec[k] * rec[size];
+    }
     pvm_reduce( PvmSum, vector, size, PVM_DOUBLE, 4, groupName, allRoot );
     if ( is_parent ) {
+        for ( int i = 0; i < size; ++i ) {
+            cout << vector[i] << " ";
+        }
         auto end = chrono::steady_clock::now();
         TextDataWriter().write( argv[2], vector, size, chrono::duration<double, milli>( end - start ).count());
     }
