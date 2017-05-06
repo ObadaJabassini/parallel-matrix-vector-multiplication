@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.6)
 project(Project)
 set(CMAKE_CXX_STANDARD 14)
 set(SOURCE_FILES source/main.cpp source/RandomGenerator/RandomGenerator.cpp source/RandomGenerator/NormalRandomGenerator.cpp source/RandomGenerator/UniformRandomGenerator.cpp source/DataHandler/DataReader.cpp source/DataHandler/DataWriter.cpp source/DataHandler/TextDataReader.cpp source/DataHandler/TextDataWriter.cpp source/Serial/MatrixMultiplier.cpp source/Pvm/SingleRowMultiplier.cpp source/Serial/SerialMatrixMultiplier.cpp source/Pvm/SingleColumnMultiplier.cpp source/Pvm/MultipleRowMultiplier.cpp source/DataHandler/RandomDataWriter.cpp)

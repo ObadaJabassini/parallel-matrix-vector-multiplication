@@ -35,7 +35,7 @@ int main(int argc, char** argv) {
         rows = size + size % offset;
         cols = size;
         num_of_process = rows / offset;
-        int cc = pvm_spawn("/home/obada/CLionProjects/Project/pvm/multiple_rows", nullptr, 0, "", num_of_process - 1,
+        int cc = pvm_spawn("/home/obada/CLionProjects/parallel-matrix-vector-multiplication/pvm/multiple_rows", nullptr, 0, "", num_of_process - 1,
                            child_id);
         if ( cc != num_of_process - 1 ) {
             cout << "\nFailed to spwan required children\n...Exit...Press any Key to exit\n";
