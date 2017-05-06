@@ -83,9 +83,6 @@ int main( int argc, char** argv ) {
     }
     pvm_reduce( PvmSum, vector, size, PVM_DOUBLE, 4, groupName, allRoot );
     if ( is_parent ) {
-        for ( int i = 0; i < size; ++i ) {
-            cout << vector[i] << " ";
-        }
         auto end = chrono::steady_clock::now();
         TextDataWriter().write( argv[2], vector, size, chrono::duration<double, milli>( end - start ).count());
     }
