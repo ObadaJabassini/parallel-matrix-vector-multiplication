@@ -4,7 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-#include "../../include/DataHandler/TextDataReader.h"
+#include <DataHandler/TextDataReader.h>
 
 using namespace std;
 

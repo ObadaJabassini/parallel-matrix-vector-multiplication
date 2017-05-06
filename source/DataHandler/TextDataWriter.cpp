@@ -1,5 +1,5 @@
 
-#include "../../include/DataHandler/TextDataWriter.h"
+#include <DataHandler/TextDataWriter.h>
 #include <fstream>
 
 using namespace std;
