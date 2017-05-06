@@ -25,10 +25,10 @@ int main( int argc, char** argv ) {
         index = 0;
         block_size = stoi( argv[3] );
         double* temp;
-        double** matrix;
+        double** mat;
         auto reader = make_shared<TextDataReader>();
         cols = reader->read( argv[1],
-                             matrix,
+                             mat,
                              vector );
         rows = cols;
         if ( cols % block_size != 0 ) {
@@ -36,10 +36,10 @@ int main( int argc, char** argv ) {
             temp = new double[rows * cols];
             for ( int i = 0; i < cols; ++i ) {
                 for ( int j = 0; j < cols; ++j ) {
-                    temp[i * cols + j] = matrix[i][j];
+                    temp[i * cols + j] = mat[i][j];
                 }
             }
-            for ( int i = cols; i < rows; ++i ) {
+            for ( int i = cols * cols; i < rows * cols; ++i ) {
                 temp[i] = 0;
             }
             double* temp2 = new double[rows];
@@ -52,6 +52,11 @@ int main( int argc, char** argv ) {
             vector = temp2;
         } else {
             temp = new double[cols * cols];
+            for ( int i = 0; i < cols; ++i ) {
+                for ( int j = 0; j < cols; ++j ) {
+                    temp[i * cols + j] = mat[i][j];
+                }
+            }
         }
         start = chrono::steady_clock::now();
         count = rows / block_size;
@@ -81,6 +86,12 @@ int main( int argc, char** argv ) {
         part = new double[block_size];
         for ( int n = 0; n < block_size; ++n ) {
             part[n] = vector[n];
+        }
+        matrix = new double[block_size * cols];
+        for ( int i = 0; i < block_size; ++i ) {
+            for ( int j = 0; j < cols; ++j ) {
+                matrix[i * cols + j] = temp[i * cols + j];
+            }
         }
     } else {
         int buffer = pvm_recv( -1, -1 );
@@ -138,11 +149,8 @@ int main( int argc, char** argv ) {
                 vector[index * block_size + j] = result[j];
             }
         }
-        for ( int k = 0; k < rows; ++k ) {
-            cout << vector[k] << " ";
-        }
         auto end = chrono::steady_clock::now();
-        TextDataWriter().write( argv[2], vector, rows - rows % block_size,
+        TextDataWriter().write( argv[2], vector, cols,
                                 chrono::duration<double, milli>( end - start ).count());
     } else {
         pvm_initsend( PvmDataDefault );
