@@ -1,9 +1,9 @@
 #include <iostream>
-#include <openmpi-x86_64/mpi.h>
 #include <memory>
 #include <chrono>
 #include <DataHandler/TextDataReader.h>
 #include <DataHandler/TextDataWriter.h>
+#include <mpi.h>
 
 using namespace std;
 
