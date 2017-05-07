@@ -1,22 +1,18 @@
 //
-// Created by obada on 5/1/17.
+// Created by ojabassini on 5/7/17.
 //
 
 #ifndef PROJECT_MULTIPLECOLUMNMULTIPLIER_H
 #define PROJECT_MULTIPLECOLUMNMULTIPLIER_H
 
+#include <Serial/MatrixMultiplier.h>
 
-#include "../Serial/MatrixMultiplier.h"
-
-class MultipleRowMultiplier : public MatrixMultiplier{
+class MultipleColumnMultiplier : public MatrixMultiplier{
 private:
-    int rows;
+    int cols;
 public:
-    MultipleRowMultiplier(std::string file_path, int rows = 3);
-
+    MultipleColumnMultiplier(std::string file_path, int cols);
     void multiply(std::string result_file_path) override;
     std::string  multiply(bool justTime = false) override;
 };
-
-
 #endif //PROJECT_MULTIPLECOLUMNMULTIPLIER_H

@@ -8,7 +8,7 @@
 
 using namespace std;
 
-MultipleRowMultiplier::MultipleRowMultiplier(const std::string& file_path, int rows) : MatrixMultiplier(file_path){
+MultipleRowMultiplier::MultipleRowMultiplier(std::string file_path, int rows) : MatrixMultiplier(file_path){
     this->rows = rows;
 }
 
