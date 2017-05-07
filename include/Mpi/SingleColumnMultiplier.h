@@ -1,14 +1,13 @@
 //
-// Created by obada on 5/1/17.
+// Created by ojabassini on 5/7/17.
 //
 
 #ifndef PROJECT_SINGLECOLUMNMULTIPLIER_H
 #define PROJECT_SINGLECOLUMNMULTIPLIER_H
 
-#include <string>
 #include "../Serial/MatrixMultiplier.h"
 
-namespace Pvm {
+namespace Mpi {
 
     class SingleColumnMultiplier : public MatrixMultiplier {
     public:
@@ -19,4 +18,5 @@ namespace Pvm {
         std::string multiply( bool justTime = false ) override;
     };
 }
+
 #endif //PROJECT_SINGLECOLUMNMULTIPLIER_H

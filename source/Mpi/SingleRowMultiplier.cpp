@@ -1,26 +1,35 @@
+//
+// Created by ojabassini on 5/7/17.
+//
 
-#include <iostream>
-#include <Pvm/SingleRowMultiplier.h>
-#include <string>
+#include <Mpi/SingleRowMultiplier.h>
 #include <fstream>
 #include <vector>
 #include <algorithm>
 
 using namespace std;
 
-namespace Pvm {
+namespace Mpi{
 
     SingleRowMultiplier::SingleRowMultiplier( std::string file_path ) : MatrixMultiplier( file_path ) {
 
     }
 
     void SingleRowMultiplier::multiply( std::string result_file_path ) {
-        system(("../../bin/pvm_single_row " + file_path + " " + result_file_path).c_str());
+        ifstream file;
+        file.open(file_path);
+        string line;
+        int size = 0;
+        while(getline(file, line)){
+            if(line != "")
+                size++;
+        }
+        system((string("mpirun -np ") + to_string(size - 3) + " ../../bin/mpi_single_row " + file_path + " " + result_file_path).c_str());
     }
 
     string SingleRowMultiplier::multiply( bool justTime ) {
         string temp = "/tmp/temp.txt";
-        system(("../../bin/pvm_single_row " + file_path + " " + temp).c_str());
+        system(("../../bin/mpi_single_row " + file_path + " " + temp).c_str());
         string result = "";
         ifstream file;
         file.open( temp );
@@ -34,5 +43,4 @@ namespace Pvm {
         for_each( lines.begin(), lines.end(), [ & ]( string l ) { result += line + "\n"; } );
         return result;
     }
-
 }

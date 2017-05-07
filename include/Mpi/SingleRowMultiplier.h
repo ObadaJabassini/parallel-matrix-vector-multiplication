@@ -1,9 +1,13 @@
+//
+// Created by ojabassini on 5/7/17.
+//
+
 #ifndef PROJECT_SINGLEROWMULTIPLIER_H
 #define PROJECT_SINGLEROWMULTIPLIER_H
 
-
 #include "../Serial/MatrixMultiplier.h"
-namespace Pvm {
+
+namespace Mpi {
     class SingleRowMultiplier : public MatrixMultiplier {
     public:
         SingleRowMultiplier( std::string file_path );
@@ -14,4 +18,5 @@ namespace Pvm {
     };
 
 }
+
 #endif //PROJECT_SINGLEROWMULTIPLIER_H

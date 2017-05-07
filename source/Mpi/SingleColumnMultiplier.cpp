@@ -2,7 +2,7 @@
 // Created by obada on 5/1/17.
 //
 
-#include <Pvm/SingleColumnMultiplier.h>
+#include <Mpi/SingleColumnMultiplier.h>
 #include <string>
 #include <fstream>
 #include <vector>
@@ -10,7 +10,7 @@
 
 using namespace std;
 
-namespace Pvm {
+namespace Mpi {
 
 
     SingleColumnMultiplier::SingleColumnMultiplier( std::string file_path )
@@ -19,13 +19,13 @@ namespace Pvm {
     }
 
     void SingleColumnMultiplier::multiply( std::string result_file_path ) {
-        system(("../../bin/pvm_single_column " + file_path + " " + result_file_path).c_str());
+        system(("../../bin/mpi_single_column " + file_path + " " + result_file_path).c_str());
     }
 
 
     string SingleColumnMultiplier::multiply( bool justTime ) {
         string temp = "/tmp/temp.txt";
-        system(("../../bin/pvm_single_column " + file_path + " " + temp).c_str());
+        system(("../../bin/mpi_single_column " + file_path + " " + temp).c_str());
         string result = "";
         ifstream file;
         file.open( temp );

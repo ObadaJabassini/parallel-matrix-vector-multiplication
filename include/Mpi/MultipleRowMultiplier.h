@@ -1,15 +1,13 @@
 //
-// Created by obada on 5/1/17.
+// Created by ojabassini on 5/7/17.
 //
 
-#ifndef PROJECT_MULTIPLECOLUMNMULTIPLIER_H
-#define PROJECT_MULTIPLECOLUMNMULTIPLIER_H
-
+#ifndef PROJECT_MULTIPLEROWMULTIPLIER_H
+#define PROJECT_MULTIPLEROWMULTIPLIER_H
 
 #include "../Serial/MatrixMultiplier.h"
 
-namespace Pvm {
-
+namespace Mpi {
     class MultipleRowMultiplier : public MatrixMultiplier {
     private:
         int rows;
@@ -22,4 +20,5 @@ namespace Pvm {
     };
 }
 
-#endif //PROJECT_MULTIPLECOLUMNMULTIPLIER_H
+
+#endif //PROJECT_MULTIPLEROWMULTIPLIER_H

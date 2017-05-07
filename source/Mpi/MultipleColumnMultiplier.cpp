@@ -1,11 +1,11 @@
-#include <Pvm/MultipleColumnMultiplier.h>
+#include <Mpi/MultipleColumnMultiplier.h>
 #include <vector>
 #include <fstream>
 #include <algorithm>
 
 using namespace std;
 
-namespace Pvm {
+namespace Mpi {
 
     MultipleColumnMultiplier::MultipleColumnMultiplier( std::string file_path, int cols ) : MatrixMultiplier(
             file_path ) {
@@ -13,13 +13,13 @@ namespace Pvm {
     }
 
     void MultipleColumnMultiplier::multiply( std::string result_file_path ) {
-        system(("../../bin/pvm_multiple_columns " + file_path + " " + std::to_string( cols ) + " " +
+        system(("../../bin/mpi_multiple_columns " + file_path + " " + std::to_string( cols ) + " " +
                 result_file_path).c_str());
     }
 
     std::string MultipleColumnMultiplier::multiply( bool justTime ) {
         string temp = "/tmp/temp.txt";
-        system(("../../bin/pvm_multiple_columns " + file_path + " " + temp).c_str());
+        system(("../../bin/mpi_multiple_columns " + file_path + " " + temp).c_str());
         string result = "";
         ifstream file;
         file.open( temp );
