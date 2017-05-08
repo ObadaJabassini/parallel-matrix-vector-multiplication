@@ -7,13 +7,7 @@
 #include <DataHandler/TextDataWriter.h>
 
 using namespace std;
-
-//class NotEnoughParameterException : public exception{
-//public:
-//    const char* what() const override {
-//        return "Not Enough parameters";
-//    }
-//};
+using namespace DataHandler;
 
 int main( int argc, char** argv ) {
     pvm_catchout(stdout);

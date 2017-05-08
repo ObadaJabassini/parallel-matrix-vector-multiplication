@@ -9,16 +9,18 @@
 #include <vector>
 #include "DataReader.h"
 using namespace std;
+namespace DataHandler {
 
-class TextDataReader : public DataReader{
-private:
-    template<typename Out>
-    static void split(const std::string& s, char delim, Out result);
+    class TextDataReader : public DataReader {
+    private:
+        template< typename Out >
+        static void split( const std::string& s, char delim, Out result );
 
-    static std::vector<std::string> split(const std::string& s, char delim);
-public:
-    virtual int read(string file_path, double**& mat, double*& vec) override;
-};
+        static std::vector<std::string> split( const std::string& s, char delim );
 
+    public:
+        virtual int read( string file_path, double**& mat, double*& vec ) override;
+    };
 
+}
 #endif //PROJECT_TEXTDATAREADER_H

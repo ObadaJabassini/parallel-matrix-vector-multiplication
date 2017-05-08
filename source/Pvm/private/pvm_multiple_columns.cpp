@@ -7,6 +7,7 @@
 #include <DataHandler/TextDataWriter.h>
 
 using namespace std;
+using namespace DataHandler;
 
 int main( int argc, char** argv ) {
     pvm_catchout( stdout );

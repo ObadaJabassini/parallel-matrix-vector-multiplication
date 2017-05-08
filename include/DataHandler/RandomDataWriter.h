@@ -11,11 +11,13 @@
 
 using namespace std;
 
-template <class T>
-class RandomDataWriter {
-public:
-    void write(string file_path, RandomGenerator<T>* generator, int size = 3);
-};
+namespace DataHandler {
 
+    template< class T >
+    class RandomDataWriter {
+    public:
+        void write( string file_path, Generator::RandomGenerator<T>* generator, int size = 3 );
+    };
+}
 
 #endif //PROJECT_RANDOMDATAWRITER_H

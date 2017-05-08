@@ -23,7 +23,7 @@ namespace Mpi {
                 size++;
         }
         int num = ( int ) std::ceil( size / this->cols);
-        system((string( "mpirun -np " ) + to_string( num ) + " ../../bin/mpi_multiple_columns " + file_path + " " +
+        system((string( "mpirun -np " ) + to_string( num ) + " /home/ojabassini/CLionProjects/parallel-matrix-vector-multiplication/bin/mpi_multiple_columns " + file_path + " " +
                 result_file_path + " " + std::to_string(this->cols)).c_str());
     }
 

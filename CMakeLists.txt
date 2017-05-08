@@ -1,6 +1,4 @@
 cmake_minimum_required(VERSION 3.6)
-#set(CMAKE_CXX_COMPILER "/home/ojabassini/openmpi/bin/mpic++")
-#set(CXX "/home/ojabassini/openmpi/bin/mpic++")
 SET(CMAKE_C_COMPILER mpicc)
 SET(CMAKE_CXX_COMPILER mpic++)
 project(Project)

@@ -5,13 +5,14 @@
 #ifndef PROJECT_TEXTDATAWRITER_H
 #define PROJECT_TEXTDATAWRITER_H
 
-
 #include "DataWriter.h"
 
-class TextDataWriter : public DataWriter{
-public:
-    virtual void write(std::string file_path, double* vec, int size, double time) override;
-};
+namespace DataHandler {
 
+    class TextDataWriter : public DataWriter {
+    public:
+        virtual void write( std::string file_path, double* vec, int size, double time ) override;
+    };
 
+}
 #endif //PROJECT_TEXTDATAWRITER_H

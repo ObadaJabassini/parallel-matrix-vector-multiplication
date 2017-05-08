@@ -8,6 +8,8 @@
 #include <Serial/MatrixMultiplier.h>
 #include <Serial/SerialMatrixMultiplier.h>
 
+using namespace DataHandler;
+
 SerialMatrixMultiplier::SerialMatrixMultiplier(std::string file_path) : MatrixMultiplier(file_path) {
 
 }

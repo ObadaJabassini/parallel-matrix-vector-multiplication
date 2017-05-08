@@ -9,21 +9,24 @@
 #include <memory>
 #include "RandomGenerator.h"
 
-template <class T>
-class NormalRandomGenerator : public RandomGenerator<T>{
-private:
-    normal_distribution<T>* normal_dist;
-public:
-    NormalRandomGenerator(uint32_t seed, float mean = 1, float stddeviation = 0);
+namespace Generator {
 
-    T generate() override;
+    template< class T>
+    class NormalRandomGenerator : public RandomGenerator<T> {
+    private:
+        normal_distribution<T>* normal_dist;
+    public:
+        NormalRandomGenerator( uint32_t seed = rand() % 1000, float mean = 1, float stddeviation = 0 );
 
-    void generate(T*& arr, int elements) override;
+        T generate() override;
 
-    void generate(T**& mat, int rows, int cols) override;
-    ~NormalRandomGenerator();
-};
+        void generate( T*& arr, int elements ) override;
 
+        void generate( T**& mat, int rows, int cols ) override;
 
+        ~NormalRandomGenerator();
+    };
+
+}
 
 #endif //PROJECT_NORMALRANDOMGENERATOR_H

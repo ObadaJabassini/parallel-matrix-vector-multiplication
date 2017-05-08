@@ -16,13 +16,13 @@ namespace Pvm {
     }
 
     void MultipleRowMultiplier::multiply( std::string result_file_path ) {
-        system(("../../bin/pvm_multiple_rows " + file_path + " " + std::to_string( rows ) + " " +
+        system(("/home/ojabassini/CLionProjects/parallel-matrix-vector-multiplication/bin/pvm_multiple_rows " + file_path + " " + std::to_string( rows ) + " " +
                 result_file_path).c_str());
     }
 
     string MultipleRowMultiplier::multiply( bool justTime ) {
         string temp = "/tmp/temp.txt";
-        system(("../../bin/pvm_multiple_rows " + file_path + " " + temp).c_str());
+        system(("/home/ojabassini/CLionProjects/parallel-matrix-vector-multiplication/bin/pvm_multiple_rows " + file_path + " " + temp).c_str());
         string result = "";
         ifstream file;
         file.open( temp );

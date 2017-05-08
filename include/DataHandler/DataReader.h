@@ -6,10 +6,12 @@
 
 using namespace std;
 
-class DataReader {
-public:
-    virtual int read(string file_path, double**& mat, double*& vec) = 0;
-};
+namespace DataHandler {
 
+    class DataReader {
+    public:
+        virtual int read( string file_path, double**& mat, double*& vec ) = 0;
+    };
 
+}
 #endif //PROJECT_DATAREADER_H

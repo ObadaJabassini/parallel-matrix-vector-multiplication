@@ -19,13 +19,13 @@ namespace Pvm {
     }
 
     void SingleColumnMultiplier::multiply( std::string result_file_path ) {
-        system(("../../bin/pvm_single_column " + file_path + " " + result_file_path).c_str());
+        system(("/home/ojabassini/CLionProjects/bin/pvm_single_column " + file_path + " " + result_file_path).c_str());
     }
 
 
     string SingleColumnMultiplier::multiply( bool justTime ) {
         string temp = "/tmp/temp.txt";
-        system(("../../bin/pvm_single_column " + file_path + " " + temp).c_str());
+        system(("/home/ojabassini/CLionProjects/bin/pvm_single_column " + file_path + " " + temp).c_str());
         string result = "";
         ifstream file;
         file.open( temp );
