@@ -38,7 +38,7 @@ int main( int argc, char** argv ) {
     }
     for ( int i = 0; i < size; ++i ) {
         if(i != rank){
-            MPI_Send(&vector[0], 1, MPI_DOUBLE, i, i, MPI_COMM_WORLD);
+            MPI_Send(&vector[rank], 1, MPI_DOUBLE, i, rank, MPI_COMM_WORLD);
         }
     }
     for ( int i = 0; i < size - 1; ++i ) {
@@ -63,7 +63,7 @@ int main( int argc, char** argv ) {
         TextDataWriter().write( argv[2], vector, size, chrono::duration<double, milli>( end - start ).count());
     }
     else{
-
+        MPI_Send(&result, 1, MPI_DOUBLE, MASTER, rank, MPI_COMM_WORLD);
     }
     MPI_Finalize();
 }
