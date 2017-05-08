@@ -2,11 +2,12 @@
 #include <memory>
 #include <RandomGenerator/NormalRandomGenerator.h>
 #include <DataHandler/TextDataReader.h>
-#include <DataHandler/RandomDataWriter.h>
 #include <RandomGenerator/UniformRandomGenerator.h>
 #include <Mpi/SingleRowMultiplier.h>
-#include <Pvm/SingleRowMultiplier.h>
 #include <Performance/Benchmarker.h>
+#include <qt5/QtWidgets/QWidget>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QApplication>
 
 using namespace std;
 using namespace Generator;
@@ -14,15 +15,10 @@ using namespace DataHandler;
 using namespace Mpi;
 using namespace Performance;
 
-
 int main(int argc, char** argv) {
-    auto gen = UniformRandomGenerator(1000, 100, 200);
-    int size = 5;
-    double* vector = new double[size];
-    gen.generate(vector, size);
-    for ( int i = 0; i < size; ++i ) {
-        cout << vector[i] << " ";
-    }
-
-    return 0;
+    QApplication app (argc, argv);
+    auto window = new QWidget();
+    QPushButton* button = new QPushButton("hi", window);
+    window->show();
+    return app.exec();
 }
