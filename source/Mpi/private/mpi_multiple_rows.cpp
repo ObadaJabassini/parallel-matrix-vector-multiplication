@@ -7,16 +7,16 @@
 
 using namespace std;
 
-int main(int argc, char** argv){
+int main( int argc, char** argv ) {
     MPI_Init( &argc, &argv );
     const int MASTER = 0;
     int rank, rows, cols, offset, processes;
-    double* matrix, *vector, *part;
+    double* matrix, * vector, * part;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank );
     MPI_Comm_size(MPI_COMM_WORLD, &processes );
     auto start = chrono::steady_clock::now();
-    if(rank == MASTER){
-        offset = atoi(argv[3]);
+    if ( rank == MASTER ) {
+        offset = atoi( argv[3] );
         double* temp;
         double** mat;
         auto reader = make_shared<TextDataReader>();
@@ -54,8 +54,9 @@ int main(int argc, char** argv){
         for ( int i = 1; i < processes; ++i ) {
             MPI_Send(&rows, 1, MPI_INT, i, i, MPI_COMM_WORLD);
             MPI_Send(&cols, 1, MPI_INT, i, i, MPI_COMM_WORLD);
-            MPI_Send(temp + i * cols * offset, cols * offset, MPI_INT, i, i, MPI_COMM_WORLD);
-            MPI_Send(vector + i * offset, offset, MPI_INT, i, i, MPI_COMM_WORLD);
+            MPI_Send(&offset, 1, MPI_INT, i, i, MPI_COMM_WORLD);
+            MPI_Send(temp + i * cols * offset, cols * offset, MPI_DOUBLE, i, i, MPI_COMM_WORLD);
+            MPI_Send(vector + i * offset, offset, MPI_DOUBLE, i, i, MPI_COMM_WORLD);
         }
         part = new double[offset];
         for ( int n = 0; n < offset; ++n ) {
@@ -71,6 +72,7 @@ int main(int argc, char** argv){
     else{
         MPI_Recv(&rows, 1, MPI_INT, MASTER, MPI_ANY_TAG, MPI_COMM_WORLD, NULL);
         MPI_Recv(&cols, 1, MPI_INT, MASTER, MPI_ANY_TAG, MPI_COMM_WORLD, NULL);
+        MPI_Recv(&offset, 1, MPI_INT, MASTER, MPI_ANY_TAG, MPI_COMM_WORLD, NULL);
         matrix = new double[offset * cols];
         MPI_Recv(matrix, offset * cols, MPI_DOUBLE, MASTER, MPI_ANY_TAG, MPI_COMM_WORLD, NULL);
         part = new double[offset];
@@ -107,7 +109,7 @@ int main(int argc, char** argv){
             MPI_Status status;
             MPI_Recv(result, offset, MPI_DOUBLE, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
             for ( int j = 0; j < offset; ++j ) {
-                vector[rank * offset + j] = result[j];
+                vector[status.MPI_TAG * offset + j] = result[j];
             }
         }
         auto end = chrono::steady_clock::now();
@@ -117,5 +119,6 @@ int main(int argc, char** argv){
     else{
         MPI_Send(result, offset, MPI_DOUBLE, MASTER, rank, MPI_COMM_WORLD);
     }
+    MPI_Barrier(MPI_COMM_WORLD);
     MPI_Finalize();
 }
