@@ -2,6 +2,7 @@
 
 #include <Mpi/MultipleRowMultiplier.h>
 #include <string>
+#include <math.h>
 #include <fstream>
 #include <algorithm>
 #include <vector>
@@ -16,17 +17,25 @@ namespace Mpi {
     }
 
     void MultipleRowMultiplier::multiply( std::string result_file_path ) {
-        system(("../../bin/mpi_multiple_rows " + file_path + " " + std::to_string( rows ) + " " +
-                result_file_path).c_str());
+        ifstream file;
+        file.open( file_path );
+        string line;
+        int size = 0;
+        while ( getline( file, line )) {
+            if ( line != "" )
+                size++;
+        }
+        int num = ( int ) std::ceil( size / this->rows);
+        system((string( "mpirun -np " ) + to_string( num ) + " ../../bin/mpi_multiple_rows " + file_path + " " +
+                result_file_path + " " + std::to_string(this->rows)).c_str());
     }
 
     string MultipleRowMultiplier::multiply( bool justTime ) {
         string temp = "/tmp/temp.txt";
-        system(("../../bin/mpi_multiple_rows " + file_path + " " + temp).c_str());
-        string result = "";
-        ifstream file;
+        this->multiply(temp);
+        std::ifstream file;
+        string result = "", line;
         file.open( temp );
-        std::string line;
         std::vector<string> lines;
         while ( std::getline( file, line )) {
             lines.push_back( line );

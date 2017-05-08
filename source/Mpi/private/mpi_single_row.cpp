@@ -19,10 +19,10 @@ int main( int argc, char** argv ) {
     if ( rank == MASTER ) {
         double** matrix;
         auto reader = make_shared<TextDataReader>();
-        start = chrono::steady_clock::now();
         reader->read( argv[1],
                       matrix,
                       vector );
+        start = chrono::steady_clock::now();
         for ( int i = 1; i < size; ++i ) {
             MPI_Send(matrix[i], size, MPI_DOUBLE, i, i, MPI_COMM_WORLD);
             MPI_Send(&vector[i], 1, MPI_DOUBLE, i, i, MPI_COMM_WORLD);

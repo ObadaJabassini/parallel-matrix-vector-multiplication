@@ -19,17 +19,24 @@ namespace Mpi {
     }
 
     void SingleColumnMultiplier::multiply( std::string result_file_path ) {
-        system(("../../bin/mpi_single_column " + file_path + " " + result_file_path).c_str());
+        ifstream file;
+        file.open(file_path);
+        string line;
+        int size = 0;
+        while(getline(file, line)){
+            if(line != "")
+                size++;
+        }
+        system((string("mpirun -np ") + to_string(size - 3) + " ../../bin/mpi_single_column " + file_path + " " + result_file_path).c_str());
     }
 
 
     string SingleColumnMultiplier::multiply( bool justTime ) {
         string temp = "/tmp/temp.txt";
-        system(("../../bin/mpi_single_column " + file_path + " " + temp).c_str());
-        string result = "";
+        this->multiply(temp);
         ifstream file;
+        string result = "", line;
         file.open( temp );
-        std::string line;
         std::vector<string> lines;
         while ( std::getline( file, line )) {
             lines.push_back( line );

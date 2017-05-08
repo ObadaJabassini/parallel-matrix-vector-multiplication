@@ -21,6 +21,7 @@ int main( int argc, char** argv ) {
         reader->read( argv[1],
                       matrix,
                       temp );
+        start = chrono::steady_clock::now();
         auto scatterData = new double[size * size + size];
         for ( int i = 0; i < size; ++i ) {
             for ( int j = 0; j < size; ++j ) {
