@@ -23,18 +23,15 @@ namespace DataHandler {
                 if ( j == size - 1 )
                     file << endl;
                 else {
-                    file << ",";
+                    file << " ";
                 }
             }
         }
         file << "vector:" << endl;
         for ( int k = 0; k < size; ++k ) {
             file << vector[k];
-            if ( k == size - 1 )
-                file << endl;
-            else {
-                file << ",";
-            }
+            if ( k != size - 1 )
+                file << " ";
         }
         file.close();
     }

@@ -2,6 +2,7 @@
 #include <memory>
 #include <RandomGenerator/NormalRandomGenerator.h>
 #include <DataHandler/TextDataReader.h>
+#include <DataHandler/RandomDataWriter.h>
 #include <RandomGenerator/UniformRandomGenerator.h>
 #include <Mpi/SingleRowMultiplier.h>
 #include <Pvm/SingleRowMultiplier.h>
@@ -15,12 +16,6 @@ using namespace Performance;
 
 
 int main(int argc, char** argv) {
-//    int size = 5;
-//    double* vector = new double[size];
-//    generator->generate(vector, size);
-//    for ( int i = 0; i < size; ++i ) {
-//        cout << vector[i] << " ";
-//    }
     auto gen = UniformRandomGenerator(1000, 100, 200);
     int size = 5;
     double* vector = new double[size];
@@ -28,5 +23,6 @@ int main(int argc, char** argv) {
     for ( int i = 0; i < size; ++i ) {
         cout << vector[i] << " ";
     }
+
     return 0;
 }

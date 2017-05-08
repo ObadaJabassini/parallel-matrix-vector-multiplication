@@ -14,7 +14,7 @@ namespace DataHandler {
             file << vec[k] << (k == size - 1 ? "\n" : ",");
         }
         file << "time taken:" << endl;
-        file << time << endl;
+        file << time;
         file.close();
     }
 
