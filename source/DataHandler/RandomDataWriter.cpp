@@ -9,8 +9,7 @@ using namespace std;
 
 namespace DataHandler {
 
-    template< class T >
-    void RandomDataWriter<T>::write( string file_path, Generator::RandomGenerator<T>* generator, int size ) {
+    void RandomDataWriter::write( string file_path, Generator::RandomGenerator* generator, int size ) {
         ofstream file;
         file.open( file_path );
         double** matrix;

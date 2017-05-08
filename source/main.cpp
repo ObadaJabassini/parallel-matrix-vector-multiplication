@@ -5,11 +5,13 @@
 #include <RandomGenerator/UniformRandomGenerator.h>
 #include <Mpi/SingleRowMultiplier.h>
 #include <Pvm/SingleRowMultiplier.h>
+#include <Performance/Benchmarker.h>
 
 using namespace std;
 using namespace Generator;
 using namespace DataHandler;
 using namespace Mpi;
+using namespace Performance;
 
 
 int main(int argc, char** argv) {
@@ -19,7 +21,12 @@ int main(int argc, char** argv) {
 //    for ( int i = 0; i < size; ++i ) {
 //        cout << vector[i] << " ";
 //    }
-    auto mult = new SingleRowMultiplier("/home/ojabassini/data.txt");
-    mult->multiply(string("/home/ojabassini/results.txt"));
+    auto gen = UniformRandomGenerator(1000, 100, 200);
+    int size = 5;
+    double* vector = new double[size];
+    gen.generate(vector, size);
+    for ( int i = 0; i < size; ++i ) {
+        cout << vector[i] << " ";
+    }
     return 0;
 }

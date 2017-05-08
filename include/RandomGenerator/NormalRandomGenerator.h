@@ -11,20 +11,18 @@
 
 namespace Generator {
 
-    template< class T>
-    class NormalRandomGenerator : public RandomGenerator<T> {
+    class NormalRandomGenerator : public RandomGenerator{
     private:
-        normal_distribution<T>* normal_dist;
+        shared_ptr<std::normal_distribution<double>> normal_dist;
     public:
-        NormalRandomGenerator( uint32_t seed = rand() % 1000, float mean = 1, float stddeviation = 0 );
+        NormalRandomGenerator( uint32_t seed = ( uint32_t ) (rand() % 1000), float mean = 1, float stddeviation = 0 );
 
-        T generate() override;
+        double generate() override;
 
-        void generate( T*& arr, int elements ) override;
+        void generate( double*& arr, int elements ) override;
 
-        void generate( T**& mat, int rows, int cols ) override;
+        void generate( double**& mat, int rows, int cols ) override;
 
-        ~NormalRandomGenerator();
     };
 
 }

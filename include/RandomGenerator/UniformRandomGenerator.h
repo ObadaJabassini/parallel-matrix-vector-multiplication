@@ -10,20 +10,17 @@
 #include "RandomGenerator.h"
 
 namespace Generator {
-    template< class T>
-    class UniformRandomGenerator : public RandomGenerator<T> {
+    class UniformRandomGenerator : public RandomGenerator{
     private:
-        std::shared_ptr<std::uniform_int_distribution<T>> uniform_dist;
+        std::shared_ptr<std::uniform_real_distribution<double>> uniform_dist;
     public:
-        UniformRandomGenerator( uint32_t seed = rand() % 1000, T low = T(), T high = T());
+        UniformRandomGenerator( uint32_t seed = ( uint32_t ) (rand() % 1000), double low = 0, double high = 1);
 
-        UniformRandomGenerator( uint32_t seed = rand() % 1000 );
+        double generate() override;
 
-        T generate() override;
+        void generate( double*& arr, int size ) override;
 
-        void generate( T*& arr, int size ) override;
-
-        void generate( T**& mat, int rows, int cols ) override;
+        void generate( double**& mat, int rows, int cols ) override;
     };
 }
 #endif //PROJECT_UNIFORMRANDOMGENERATOR_H

@@ -5,26 +5,22 @@
 
 namespace Generator {
 
-    template< class T>
-    NormalRandomGenerator<T>::NormalRandomGenerator( uint32_t seed, float mean, float stddeviation )
-            : RandomGenerator<T>( seed ) {
-        this->normal_dist = new std::normal_distribution<T>( mean, stddeviation );
+    NormalRandomGenerator::NormalRandomGenerator( uint32_t seed, float mean, float stddeviation )
+            : RandomGenerator( seed ) {
+        this->normal_dist = make_shared<std::normal_distribution<double>>( mean, stddeviation );
     }
 
-    template< class T >
-    T NormalRandomGenerator<T>::generate() {
+    double NormalRandomGenerator::generate() {
         return (*normal_dist)( this->range );
     }
 
-    template< class T >
-    void NormalRandomGenerator<T>::generate( T*& arr, int elements ) {
+    void NormalRandomGenerator::generate( double*& arr, int elements ) {
         for ( int i = 0; i < elements; ++i ) {
             arr[i] = (*normal_dist)( this->range );
         }
     }
 
-    template< class T >
-    void NormalRandomGenerator<T>::generate( T**& mat, int rows, int cols ) {
+    void NormalRandomGenerator::generate( double**& mat, int rows, int cols ) {
         for ( int i = 0; i < rows; ++i ) {
             for ( int j = 0; j < cols; ++j ) {
                 mat[i][j] = (*normal_dist)( this->range );
@@ -32,8 +28,4 @@ namespace Generator {
         }
     }
 
-    template< class T >
-    NormalRandomGenerator<T>::~NormalRandomGenerator() {
-        delete this->normal_dist;
-    }
 }

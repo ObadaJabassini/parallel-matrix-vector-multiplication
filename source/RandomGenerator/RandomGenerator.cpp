@@ -6,8 +6,7 @@
 
 namespace Generator {
 
-    template< class T >
-    RandomGenerator<T>::RandomGenerator( uint32_t seed ) {
+    RandomGenerator::RandomGenerator( uint32_t seed ) {
         range.seed( seed );
     }
 }

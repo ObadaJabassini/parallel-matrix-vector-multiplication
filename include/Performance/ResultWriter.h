@@ -8,13 +8,16 @@
 #include "Benchmarker.h"
 #include <vector>
 
-class ResultWriter{
-private:
-    Benchmarker* benchmarker;
-public:
-    ResultWriter(Benchmarker* benchmarker);
+namespace Performance {
 
-    void write(std::string file_path, std::vector<std::string> names);
-};
+    class ResultWriter {
+    private:
+        Benchmarker* benchmarker;
+    public:
+        ResultWriter( Benchmarker* benchmarker );
 
+        void write( std::string file_path, std::vector<std::string> names );
+    };
+
+}
 #endif //PROJECT_RESULTWRITER_H

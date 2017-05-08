@@ -13,10 +13,9 @@ using namespace std;
 
 namespace DataHandler {
 
-    template< class T >
     class RandomDataWriter {
     public:
-        void write( string file_path, Generator::RandomGenerator<T>* generator, int size = 3 );
+        void write( string file_path, Generator::RandomGenerator* generator, int size = 3 );
     };
 }
 
