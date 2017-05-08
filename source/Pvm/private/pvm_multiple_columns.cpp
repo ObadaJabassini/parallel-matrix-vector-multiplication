@@ -20,7 +20,7 @@ int main( int argc, char** argv ) {
     double* part;
     auto start = chrono::steady_clock::now();
     if ( is_parent ) {
-        block_size = stod(argv[3]);
+        block_size = stoi(argv[3]);
         auto reader = make_shared<TextDataReader>();
         rows = reader->read( argv[1],
                              matrix,
