@@ -153,7 +153,7 @@ void MainWindow::benchmark() {
     customPlot->xAxis->setTicker( textTicker );
     QVector<double> timeData;
     for ( int i = 0; i < data.size(); ++i ) {
-        timeData << data[i] * 10000;
+        timeData << data[i] * 10;
     }
     timeBar->setData( ticks, timeData );
 }
