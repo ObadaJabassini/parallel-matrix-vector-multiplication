@@ -27,19 +27,4 @@ namespace Mpi {
                 result_file_path + " " + std::to_string(this->cols)).c_str());
     }
 
-    std::string MultipleColumnMultiplier::multiply( bool justTime ) {
-        string temp = "/tmp/temp.txt";
-        this->multiply(temp);
-        string result = "", line;
-        ifstream file;
-        file.open( temp );
-        std::vector<string> lines;
-        while ( std::getline( file, line )) {
-            lines.push_back( line );
-        }
-        if ( justTime )
-            return lines[lines.size() - 2];
-        for_each( lines.begin(), lines.end(), [ & ]( string l ) { result += line + "\n"; } );
-        return result;
-    }
 }

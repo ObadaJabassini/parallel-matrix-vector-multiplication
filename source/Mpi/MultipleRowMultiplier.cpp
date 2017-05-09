@@ -29,21 +29,4 @@ namespace Mpi {
         system((string( "mpirun -np " ) + to_string( num ) + " /home/ojabassini/CLionProjects/parallel-matrix-vector-multiplication/bin/mpi_multiple_rows " + file_path + " " +
                 result_file_path + " " + std::to_string(this->rows)).c_str());
     }
-
-    string MultipleRowMultiplier::multiply( bool justTime ) {
-        string temp = "/tmp/temp.txt";
-        this->multiply(temp);
-        std::ifstream file;
-        string result = "", line;
-        file.open( temp );
-        std::vector<string> lines;
-        while ( std::getline( file, line )) {
-            lines.push_back( line );
-        }
-        if ( justTime )
-            return lines[lines.size() - 2];
-        for_each( lines.begin(), lines.end(), [ & ]( string l ) { result += line + "\n"; } );
-        return result;
-    }
-
 }

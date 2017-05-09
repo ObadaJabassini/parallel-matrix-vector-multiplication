@@ -11,7 +11,7 @@ public:
     MatrixMultiplier(std::string file_path);
     static MatrixMultiplier* create(std::string name, std::string filePath);
     virtual void multiply(std::string result_file_path) = 0;
-    virtual std::string multiply(bool justTime = false) = 0;
+    virtual std::string multiply(bool justTime = false);
 };
 
 
