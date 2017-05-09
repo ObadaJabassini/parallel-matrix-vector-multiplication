@@ -10,6 +10,7 @@
 #include <QStringList>
 #include <QStringListModel>
 #include <QAbstractItemView>
+#include <qcustomplot.h>
 
 using namespace std;
 
@@ -36,6 +37,8 @@ public slots:
     void benchmark();
 
 private:
+    QCustomPlot* customPlot;
+    void initCustomPlot();
     void initEvents();
     QString filePath;
     Ui::MainWindow* ui;

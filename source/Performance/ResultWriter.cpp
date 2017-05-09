@@ -8,7 +8,7 @@ namespace Performance {
         this->benchmarker = benchmarker;
     }
 
-    void ResultWriter::write( std::string file_path, std::vector<std::string> names ) {
+    std::vector<double> ResultWriter::write( std::string file_path, std::vector<std::string> names ) {
         std::ofstream file;
         file.open( file_path );
         auto times = benchmarker->benchmark();
@@ -17,6 +17,7 @@ namespace Performance {
             file << names[i] << " " << std::to_string( times[i] ) << std::endl;
         }
         file.close();
+        return times;
     }
 
 }

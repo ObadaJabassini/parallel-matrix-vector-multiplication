@@ -25,6 +25,8 @@ MainWindow::MainWindow( QWidget* parent ) :
         QMainWindow( parent ) {
     ui = new Ui::MainWindow();
     ui->setupUi( this );
+    customPlot = ui->plotWidget;
+    initCustomPlot();
     QStringListModel* model = new QStringListModel( this ),
             * model1 = new QStringListModel( this );
     QStringList list;
@@ -85,22 +87,6 @@ void MainWindow::removeItem() {
     qDeleteAll( ui->listWidget->selectedItems());
 }
 
-void MainWindow::benchmark() {
-    string resultFilePath = QFileDialog::getOpenFileName( this, tr( "Select Your file:" )).toStdString();
-    vector<MatrixMultiplier*> multipliers;
-    vector<string> names;
-    string filePath = this->filePath.toStdString();
-    auto len = ui->listWidget->count();
-    for ( int i = 0; i < len; ++i ) {
-        string name = ui->listWidget->item( i )->text().toStdString();
-        names.push_back( name );
-        multipliers.push_back( MatrixMultiplier::create( name, filePath ));
-    }
-    auto benchmarker = new Benchmarker( multipliers );
-    auto writer = new ResultWriter( benchmarker );
-    writer->write( resultFilePath, names );
-}
-
 void MainWindow::loadButton() {
     filePath = QFileDialog::getOpenFileName( this, tr( "Select Your file:" ));
 }
@@ -136,6 +122,74 @@ void MainWindow::insert() {
     delete dialog;
 }
 
+void MainWindow::benchmark() {
+    string resultFilePath = QFileDialog::getOpenFileName( this, tr( "Select Your file:" )).toStdString();
+    vector<MatrixMultiplier*> multipliers;
+    vector<string> names;
+    string filePath = this->filePath.toStdString();
+    auto len = ui->listWidget->count();
+    for ( int i = 0; i < len; ++i ) {
+        string name = ui->listWidget->item( i )->text().toStdString();
+        names.push_back( name );
+        multipliers.push_back( MatrixMultiplier::create( name, filePath ));
+    }
+    auto benchmarker = new Benchmarker( multipliers );
+    auto writer = new ResultWriter( benchmarker );
+    auto data = writer->write( resultFilePath, names );
+    auto timeBar = new QCPBars( customPlot->xAxis, customPlot->yAxis );
+    timeBar->setAntialiased( false );
+    timeBar->setStackingGap( 1 );
+    timeBar->setName( "Time" );
+    timeBar->setPen( QPen( QColor( 111, 9, 176 ).lighter( 170 )));
+    timeBar->setBrush( QColor( 111, 9, 176 ));
+    QVector<double> ticks;
+    QVector<QString> labels;
+    for ( int i = 0; i < names.size(); ++i ) {
+        ticks << i + 1;
+        labels << QString::fromStdString(names[i]);
+    }
+    QSharedPointer<QCPAxisTickerText> textTicker( new QCPAxisTickerText() );
+    textTicker->addTicks( ticks, labels );
+    customPlot->xAxis->setTicker( textTicker );
+    QVector<double> timeData;
+    for ( int i = 0; i < data.size(); ++i ) {
+        timeData << data[i] * 10000;
+    }
+    timeBar->setData( ticks, timeData );
+}
 
+void MainWindow::initCustomPlot() {
+    QLinearGradient gradient( 0, 0, 0, 400 );
+    gradient.setColorAt( 0, QColor( 90, 90, 90 ));
+    gradient.setColorAt( 0.38, QColor( 105, 105, 105 ));
+    gradient.setColorAt( 1, QColor( 70, 70, 70 ));
+    customPlot->setBackground( QBrush( gradient ));
+    customPlot->xAxis->setTickLabelRotation( 60 );
+    customPlot->xAxis->setSubTicks( false );
+    customPlot->xAxis->setTickLength( 0, 4 );
+    customPlot->xAxis->setRange( 0, 8 );
+    customPlot->xAxis->setBasePen( QPen( Qt::white ));
+    customPlot->xAxis->setTickPen( QPen( Qt::white ));
+    customPlot->xAxis->grid()->setVisible( true );
+    customPlot->xAxis->grid()->setPen( QPen( QColor( 130, 130, 130 ), 0, Qt::DotLine ));
+    customPlot->xAxis->setTickLabelColor( Qt::white );
+    customPlot->xAxis->setLabelColor( Qt::white );
+    customPlot->yAxis->setRange( 0, 12.1 );
+    customPlot->yAxis->setPadding( 5 ); // a bit more space to the left border
+    customPlot->yAxis->setLabel( "Time Consumed In Every method" );
+    customPlot->yAxis->setBasePen( QPen( Qt::white ));
+    customPlot->yAxis->setTickPen( QPen( Qt::white ));
+    customPlot->yAxis->setSubTickPen( QPen( Qt::white ));
+    customPlot->yAxis->grid()->setSubGridVisible( true );
+    customPlot->yAxis->setTickLabelColor( Qt::white );
+    customPlot->yAxis->setLabelColor( Qt::white );
+    customPlot->yAxis->grid()->setPen( QPen( QColor( 130, 130, 130 ), 0, Qt::SolidLine ));
+    customPlot->yAxis->grid()->setSubGridPen( QPen( QColor( 130, 130, 130 ), 0, Qt::DotLine ));
+    customPlot->legend->setVisible( true );
+    customPlot->axisRect()->insetLayout()->setInsetAlignment( 0, Qt::AlignTop | Qt::AlignHCenter );
+    customPlot->legend->setBrush( QColor( 255, 255, 255, 100 ));
+    customPlot->legend->setBorderPen( Qt::NoPen );
+    customPlot->setInteractions( QCP::iRangeDrag | QCP::iRangeZoom );
+}
 
 #include "mainwindow.moc"
