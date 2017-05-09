@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>MainWindow</class>
+    <widget class="QMainWindow" name="MainWindow">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>514</width>
+                <height>452</height>
+            </rect>
+        </property>
+        <property name="windowTitle">
+            <string>MainWindow</string>
+        </property>
+        <widget class="QWidget" name="centralWidget">
+            <widget class="QTabWidget" name="tabWidget">
+                <property name="geometry">
+                    <rect>
+                        <x>0</x>
+                        <y>0</y>
+                        <width>261</width>
+                        <height>361</height>
+                    </rect>
+                </property>
+                <property name="currentIndex">
+                    <number>1</number>
+                </property>
+                <widget class="QWidget" name="tab">
+                    <attribute name="title">
+                        <string>Generate</string>
+                    </attribute>
+                    <widget class="QWidget" name="">
+                        <property name="geometry">
+                            <rect>
+                                <x>0</x>
+                                <y>0</y>
+                                <width>231</width>
+                                <height>291</height>
+                            </rect>
+                        </property>
+                        <layout class="QVBoxLayout" name="verticalLayout">
+                            <item>
+                                <layout class="QHBoxLayout" name="horizontalLayout">
+                                    <item>
+                                        <widget class="QLabel" name="label">
+                                            <property name="text">
+                                                <string>Your Dimension:</string>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                    <item>
+                                        <widget class="QSpinBox" name="dimensionBox"/>
+                                    </item>
+                                </layout>
+                            </item>
+                            <item>
+                                <layout class="QHBoxLayout" name="horizontalLayout_2">
+                                    <item>
+                                        <widget class="QLabel" name="label_2">
+                                            <property name="text">
+                                                <string>Your Dist:</string>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                    <item>
+                                        <widget class="QComboBox" name="distBox"/>
+                                    </item>
+                                </layout>
+                            </item>
+                            <item>
+                                <layout class="QHBoxLayout" name="horizontalLayout_3">
+                                    <item>
+                                        <widget class="QPushButton" name="generateButton">
+                                            <property name="text">
+                                                <string>Generate</string>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                    <item>
+                                        <widget class="QPushButton" name="insertButton">
+                                            <property name="text">
+                                                <string>Insert</string>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                </layout>
+                            </item>
+                        </layout>
+                    </widget>
+                </widget>
+                <widget class="QWidget" name="tab_2">
+                    <attribute name="title">
+                        <string>Benchmark</string>
+                    </attribute>
+                    <widget class="QWidget" name="">
+                        <property name="geometry">
+                            <rect>
+                                <x>0</x>
+                                <y>0</y>
+                                <width>247</width>
+                                <height>304</height>
+                            </rect>
+                        </property>
+                        <layout class="QVBoxLayout" name="verticalLayout_3">
+                            <item>
+                                <layout class="QVBoxLayout" name="verticalLayout_2">
+                                    <item>
+                                        <widget class="QListWidget" name="listWidget"/>
+                                    </item>
+                                    <item>
+                                        <layout class="QHBoxLayout" name="horizontalLayout_4">
+                                            <item>
+                                                <widget class="QPushButton" name="addButton">
+                                                    <property name="text">
+                                                        <string>Add</string>
+                                                    </property>
+                                                </widget>
+                                            </item>
+                                            <item>
+                                                <widget class="QComboBox" name="choiceBox"/>
+                                            </item>
+                                        </layout>
+                                    </item>
+                                    <item>
+                                        <layout class="QHBoxLayout" name="horizontalLayout_5">
+                                            <item>
+                                                <widget class="QPushButton" name="removeButton">
+                                                    <property name="text">
+                                                        <string>Remove</string>
+                                                    </property>
+                                                </widget>
+                                            </item>
+                                        </layout>
+                                    </item>
+                                </layout>
+                            </item>
+                            <item>
+                                <layout class="QHBoxLayout" name="horizontalLayout_6">
+                                    <item>
+                                        <widget class="QPushButton" name="loadButton">
+                                            <property name="text">
+                                                <string>Load</string>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                    <item>
+                                        <widget class="QPushButton" name="benchmarkButton">
+                                            <property name="text">
+                                                <string>Benchmark</string>
+                                            </property>
+                                        </widget>
+                                    </item>
+                                </layout>
+                            </item>
+                        </layout>
+                    </widget>
+                </widget>
+            </widget>
+        </widget>
+        <widget class="QMenuBar" name="menuBar">
+            <property name="geometry">
+                <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>514</width>
+                    <height>25</height>
+                </rect>
+            </property>
+        </widget>
+        <widget class="QToolBar" name="mainToolBar">
+            <attribute name="toolBarArea">
+                <enum>TopToolBarArea</enum>
+            </attribute>
+            <attribute name="toolBarBreak">
+                <bool>false</bool>
+            </attribute>
+        </widget>
+        <widget class="QStatusBar" name="statusBar"/>
+    </widget>
+    <layoutdefault spacing="6" margin="11"/>
+    <resources/>
+    <connections/>
+</ui>

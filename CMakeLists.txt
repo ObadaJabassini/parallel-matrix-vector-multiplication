@@ -2,19 +2,49 @@ cmake_minimum_required(VERSION 3.6)
 SET(CMAKE_C_COMPILER mpicc)
 SET(CMAKE_CXX_COMPILER mpic++)
 project(Project)
+set (CMAKE_SHARED_LINKER_FLAGS "-lqwt-qt5")
 set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_AUTOMOC ON)
-set(SOURCE_FILES source/main.cpp source/RandomGenerator/RandomGenerator.cpp source/RandomGenerator/NormalRandomGenerator.cpp source/RandomGenerator/UniformRandomGenerator.cpp source/DataHandler/DataReader.cpp source/DataHandler/DataWriter.cpp source/DataHandler/TextDataReader.cpp source/DataHandler/TextDataWriter.cpp source/Serial/MatrixMultiplier.cpp source/Pvm/SingleRowMultiplier.cpp source/Serial/SerialMatrixMultiplier.cpp source/Pvm/SingleColumnMultiplier.cpp source/Pvm/MultipleRowMultiplier.cpp source/DataHandler/RandomDataWriter.cpp source/Performance/Benchmarker.cpp source/Pvm/MultipleColumnMultiplier.cpp source/Mpi/SingleRowMultiplier.cpp source/Mpi/SingleColumnMultiplier.cpp source/Mpi/MultipleRowMultiplier.cpp source/Mpi/MultipleColumnMultiplier.cpp source/Performance/ResultWriter.cpp include/DataHandler/DataReader.h include/DataHandler/DataWriter.h include/DataHandler/TextDataReader.h include/DataHandler/TextDataWriter.h include/DataHandler/RandomDataWriter.h include/RandomGenerator/RandomGenerator.h include/RandomGenerator/UniformRandomGenerator.h include/RandomGenerator/NormalRandomGenerator.h include/Performance/Benchmarker.h include/Performance/ResultWriter.h include/Pvm/MultipleColumnMultiplier.h include/Pvm/SingleColumnMultiplier.h include/Pvm/SingleRowMultiplier.h include/Pvm/MultipleRowMultiplier.h include/Mpi/MultipleColumnMultiplier.h include/Mpi/SingleColumnMultiplier.h include/Mpi/SingleRowMultiplier.h include/Mpi/MultipleRowMultiplier.h include/Serial/MatrixMultiplier.h include/Serial/SerialMatrixMultiplier.h)
-add_executable(Project ${SOURCE_FILES})
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+set(SOURCE_FILES source/main.cpp source/RandomGenerator/RandomGenerator.cpp source/RandomGenerator/NormalRandomGenerator.cpp source/RandomGenerator/UniformRandomGenerator.cpp source/DataHandler/DataReader.cpp source/DataHandler/DataWriter.cpp source/DataHandler/TextDataReader.cpp source/DataHandler/TextDataWriter.cpp source/Serial/MatrixMultiplier.cpp source/Pvm/SingleRowMultiplier.cpp source/Serial/SerialMatrixMultiplier.cpp source/Pvm/SingleColumnMultiplier.cpp source/Pvm/MultipleRowMultiplier.cpp source/DataHandler/RandomDataWriter.cpp source/Performance/Benchmarker.cpp source/Pvm/MultipleColumnMultiplier.cpp source/Mpi/SingleRowMultiplier.cpp source/Mpi/SingleColumnMultiplier.cpp source/Mpi/MultipleRowMultiplier.cpp source/Mpi/MultipleColumnMultiplier.cpp source/Performance/ResultWriter.cpp include/DataHandler/DataReader.h include/DataHandler/DataWriter.h include/DataHandler/TextDataReader.h include/DataHandler/TextDataWriter.h include/DataHandler/RandomDataWriter.h include/RandomGenerator/RandomGenerator.h include/RandomGenerator/UniformRandomGenerator.h include/RandomGenerator/NormalRandomGenerator.h include/Performance/Benchmarker.h include/Performance/ResultWriter.h include/Pvm/MultipleColumnMultiplier.h include/Pvm/SingleColumnMultiplier.h include/Pvm/SingleRowMultiplier.h include/Pvm/MultipleRowMultiplier.h include/Mpi/MultipleColumnMultiplier.h include/Mpi/SingleColumnMultiplier.h include/Mpi/SingleRowMultiplier.h include/Mpi/MultipleRowMultiplier.h include/Serial/MatrixMultiplier.h include/Serial/SerialMatrixMultiplier.h include/Ui/mainwindow.h source/mainwindow.cpp)
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/bin)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+SET(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+find_path(QWT_INCLUDE_DIR qwt.h
+        PATHS /usr/local/qwt /usr/local /usr/include/qwt-qt4 /usr/include/qwt
+        /usr/include/qwt5 /usr /opt/local/include/qwt
+        HINTS $ENV{QWT_ROOT} ${QWT_ROOT}
+        PATH_SUFFIXES include
+        )
+set(QWT_NAMES ${QWT_NAMES} qwt-qt4 qwt5 qwt libqwt-qt4 libqwt)
+find_library(QWT_LIBRARY
+        NAMES ${QWT_NAMES}
+        PATHS /usr/local/qwt /usr/local /usr $ENV{QWT_ROOT} ${QWT_ROOT}
+        PATH_SUFFIXES lib
+        )
+if(QWT_LIBRARY)
+    set(QWT_LIBRARIES ${QWT_LIBRARY})
+    set(QWT_FOUND YES)
+
+endif(QWT_LIBRARY)
+include(FindPackageHandleStandardArgs)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(QWT DEFAULT_MSG QWT_LIBRARIES)
+mark_as_advanced(QWT_INCLUDE_DIR QWT_LIBRARY)
+add_executable(Project ${SOURCE_FILES})
+include_directories(${Qt5Widgets_INCLUDES})
+add_definitions(${Qt5Widgets_DEFINITIONS})
+set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Core REQUIRED)
+find_package(Qt5Gui REQUIRED)
 include_directories("${PROJECT_SOURCE_DIR}/include")
 include_directories("/home/ojabassini/openmpi/include")
 target_link_libraries(Project libpvm3.a)
-target_link_libraries(Project Qt5::Widgets Qt5::Core Qt5::Gui)
 target_link_libraries(Project libgpvm3.a)
+target_link_libraries(Project Qt5::Widgets Qt5::Core Qt5::Gui)
 file(GLOB APP_SOURCES source/Pvm/private/*.cpp source/Mpi/private/*.cpp)
 foreach (testsourcefile ${APP_SOURCES})
     get_filename_component(testname ${testsourcefile} NAME_WE)

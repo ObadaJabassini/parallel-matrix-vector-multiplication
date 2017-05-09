@@ -5,9 +5,12 @@
 #include <RandomGenerator/UniformRandomGenerator.h>
 #include <Mpi/SingleRowMultiplier.h>
 #include <Performance/Benchmarker.h>
-#include <qt5/QtWidgets/QWidget>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QApplication>
+#include <QtCore/QTextStream>
+#include <QtCore/QFile>
+#include <QtCore/QObject>
+#include <Ui/mainwindow.h>
 
 using namespace std;
 using namespace Generator;
@@ -17,8 +20,20 @@ using namespace Performance;
 
 int main(int argc, char** argv) {
     QApplication app (argc, argv);
-    auto window = new QWidget();
-    QPushButton* button = new QPushButton("hi", window);
+    QFile f("../qdarkstyle/style.qss");
+    if (!f.exists())
+    {
+        printf("Unable to set stylesheet, file not found\n");
+    }
+    else
+    {
+        f.open(QFile::ReadOnly | QFile::Text);
+        QTextStream ts(&f);
+        qApp->setStyleSheet(ts.readAll());
+    }
+    auto window = make_shared<MainWindow>();
     window->show();
     return app.exec();
 }
+
+#include "main.moc"

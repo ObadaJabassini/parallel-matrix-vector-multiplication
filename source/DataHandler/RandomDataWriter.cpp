@@ -12,9 +12,12 @@ namespace DataHandler {
     void RandomDataWriter::write( string file_path, Generator::RandomGenerator* generator, int size ) {
         ofstream file;
         file.open( file_path );
-        double** matrix;
+        double** matrix = new double*[size];
+        for ( int i = 0; i < size; ++i ) {
+            matrix[i] = new double[size];
+        }
         generator->generate( matrix, size, size );
-        double* vector;
+        double* vector = new double[size];
         generator->generate( vector, size );
         file << "matrix:" << endl;
         for ( int i = 0; i < size; ++i ) {
