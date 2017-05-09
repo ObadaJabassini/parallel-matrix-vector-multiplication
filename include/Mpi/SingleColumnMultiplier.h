@@ -2,8 +2,8 @@
 // Created by ojabassini on 5/7/17.
 //
 
-#ifndef PROJECT_SINGLECOLUMNMULTIPLIER_H
-#define PROJECT_SINGLECOLUMNMULTIPLIER_H
+#ifndef PROJECT_SINGLECOLUMNMULTIPLIER_MPI_H
+#define PROJECT_SINGLECOLUMNMULTIPLIER_MPI_H
 
 #include "../Serial/MatrixMultiplier.h"
 

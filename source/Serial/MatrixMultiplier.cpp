@@ -23,7 +23,7 @@ MatrixMultiplier::MatrixMultiplier(std::string file_path) {
     this->file_path = file_path;
 }
 
-MatrixMultiplier* MatrixMultiplier::create( std::string name, std::string filePath) {
+MatrixMultiplier* MatrixMultiplier::create( std::string name, std::string filePath, int offset) {
     if(name == "Serial"){
         return new SerialMatrixMultiplier(filePath);
     }
@@ -34,22 +34,22 @@ MatrixMultiplier* MatrixMultiplier::create( std::string name, std::string filePa
         return new Pvm::SingleColumnMultiplier(filePath);
     }
     if(name == "Pvm_Multiple_Row"){
-        return new Pvm::MultipleRowMultiplier(filePath);
+        return new Pvm::MultipleRowMultiplier(filePath, offset);
     }
     if(name == "Pvm_Multiple_Column"){
-        //return new Pvm::MultipleColumnMultiplier(filePath);
+        return new Pvm::MultipleColumnMultiplier(filePath, offset);
     }
     if(name == "Mpi_Single_Row"){
-        //return new Mpi::SingleRowMultiplier(filePath);
+        return new Mpi::SingleRowMultiplier(filePath);
     }
     if(name == "Mpi_Single_Column"){
-        //return new Mpi::SingleColumnMultiplier(filePath);
+        return new Mpi::SingleColumnMultiplier(filePath);
     }
     if(name == "Mpi_Multiple_Row"){
-        return new Mpi::MultipleRowMultiplier(filePath);
+        return new Mpi::MultipleRowMultiplier(filePath, offset);
     }
     if(name == "Mpi_Multiple_Column"){
-        //return new Mpi::MultipleColumnMultiplier(filePath);
+        return new Mpi::MultipleColumnMultiplier(filePath, offset);
     }
     return nullptr;
 }

@@ -15,6 +15,7 @@
 #include <Performance/Benchmarker.h>
 #include <include/Ui/dialog.h>
 #include <include/DataHandler/TextDataWriter.h>
+#include <include/Ui/offsetdialog.h>
 
 using namespace std;
 using namespace DataHandler;
@@ -74,17 +75,31 @@ void MainWindow::generate() {
 
 
 void MainWindow::addItem() {
-    auto len = ui->listWidget->count();
-    for ( int i = 0; i < len; ++i ) {
-        if ( ui->choiceBox->currentText() == ui->listWidget->item( i )->text()) {
-            return;
+    auto temp = ui->choiceBox->currentText();
+    if(!temp.contains(QString::fromStdString("Multiple"))){
+        auto len = ui->listWidget->count();
+        for ( int i = 0; i < len; ++i ) {
+            if ( temp == ui->listWidget->item( i )->text()) {
+                return;
+            }
         }
+        ui->listWidget->addItem(temp);
     }
-    ui->listWidget->addItem( ui->choiceBox->currentText());
+    else{
+        auto dialog = new OffsetDialog(this);
+        QObject::connect(dialog, SIGNAL(getData(int)), this, SLOT(addOffset(int)));
+        dialog->exec();
+    }
 }
 
 void MainWindow::removeItem() {
-    qDeleteAll( ui->listWidget->selectedItems());
+    auto items = ui->listWidget->selectedItems();
+    for(auto& temp : items){
+        if(temp->text().contains("Multiple")){
+            offsets.pop_front();
+        }
+    }
+    qDeleteAll(items);
 }
 
 void MainWindow::loadButton() {
@@ -128,10 +143,16 @@ void MainWindow::benchmark() {
     vector<string> names;
     string filePath = this->filePath.toStdString();
     auto len = ui->listWidget->count();
-    for ( int i = 0; i < len; ++i ) {
-        string name = ui->listWidget->item( i )->text().toStdString();
+    for ( int i = 0, j = 0; i < len; ++i ) {
+        auto temp = ui->listWidget->item( i )->text();
+        string name = temp.toStdString();
         names.push_back( name );
-        multipliers.push_back( MatrixMultiplier::create( name, filePath ));
+        if(temp.contains("Multiple")){
+            multipliers.push_back( MatrixMultiplier::create( name, filePath, offsets[j++]));
+        }
+        else {
+            multipliers.push_back( MatrixMultiplier::create( name, filePath ));
+        }
     }
     auto benchmarker = new Benchmarker( multipliers );
     auto writer = new ResultWriter( benchmarker );
@@ -190,6 +211,11 @@ void MainWindow::initCustomPlot() {
     customPlot->legend->setBrush( QColor( 255, 255, 255, 100 ));
     customPlot->legend->setBorderPen( Qt::NoPen );
     customPlot->setInteractions( QCP::iRangeDrag | QCP::iRangeZoom );
+}
+
+void MainWindow::addOffset( int value ) {
+    offsets << value;
+    ui->listWidget->addItem(ui->choiceBox->currentText());
 }
 
 #include "mainwindow.moc"

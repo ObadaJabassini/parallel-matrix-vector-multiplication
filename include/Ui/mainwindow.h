@@ -31,6 +31,7 @@ public slots:
     void generate();
     void insert();
     void insertData(QString matrix, QString vector);
+    void addOffset(int value);
     void addItem();
     void removeItem();
     void loadButton();
@@ -41,6 +42,7 @@ private:
     void initCustomPlot();
     void initEvents();
     QString filePath;
+    QVector<int> offsets;
     Ui::MainWindow* ui;
 };
 

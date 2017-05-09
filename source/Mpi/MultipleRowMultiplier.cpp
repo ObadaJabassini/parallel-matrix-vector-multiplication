@@ -1,5 +1,3 @@
-
-
 #include <Mpi/MultipleRowMultiplier.h>
 #include <string>
 #include <math.h>
@@ -10,12 +8,9 @@
 using namespace std;
 
 namespace Mpi {
-
-
     MultipleRowMultiplier::MultipleRowMultiplier( std::string file_path, int rows ) : MatrixMultiplier( file_path ) {
         this->rows = rows;
     }
-
     void MultipleRowMultiplier::multiply( std::string result_file_path ) {
         ifstream file;
         file.open( file_path );

@@ -1,18 +1,17 @@
 #include <Mpi/MultipleColumnMultiplier.h>
+#include <string>
 #include <vector>
 #include <fstream>
 #include <algorithm>
-#include <cmath>
+#include <math.h>
 
 using namespace std;
 
 namespace Mpi {
-
     MultipleColumnMultiplier::MultipleColumnMultiplier( std::string file_path, int cols ) : MatrixMultiplier(
             file_path ) {
         this->cols = cols;
     }
-
     void MultipleColumnMultiplier::multiply( std::string result_file_path ) {
         ifstream file;
         file.open( file_path );
