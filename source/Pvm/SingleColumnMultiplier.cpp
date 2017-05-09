@@ -19,7 +19,7 @@ namespace Pvm {
     }
 
     void SingleColumnMultiplier::multiply( std::string result_file_path ) {
-        system(("/home/ojabassini/CLionProjects/bin/pvm_single_column " + file_path + " " + result_file_path).c_str());
+        system(("/home/ojabassini/CLionProjects/parallel-matrix-vector-multiplication/bin/pvm_single_column " + file_path + " " + result_file_path).c_str());
     }
 
 }
