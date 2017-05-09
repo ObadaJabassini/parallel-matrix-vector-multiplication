@@ -1,16 +1,18 @@
-
+//
+// Created by ojabassini on 5/9/17.
+//
 
 #ifndef PROJECT_DATAWRITER_H
 #define PROJECT_DATAWRITER_H
 
-#include <string>
+#include <fstream>
+using namespace std;
 
 namespace DataHandler {
-
-    class DataWriter {
+    class DataWriter{
     public:
-        virtual void write( std::string file_path, double* result, int size, double time ) = 0;
+        virtual void write(string filePath, double** matrix, double* vector, int size) = 0;
     };
-
 }
+
 #endif //PROJECT_DATAWRITER_H

@@ -29,6 +29,7 @@ public:
 public slots:
     void generate();
     void insert();
+    void insertData(QString matrix, QString vector);
     void addItem();
     void removeItem();
     void loadButton();
@@ -36,7 +37,6 @@ public slots:
 
 private:
     void initEvents();
-
     QString filePath;
     Ui::MainWindow* ui;
 };

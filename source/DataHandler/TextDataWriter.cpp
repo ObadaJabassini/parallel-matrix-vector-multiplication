@@ -1,21 +1,20 @@
-
 #include <DataHandler/TextDataWriter.h>
-#include <fstream>
 
-using namespace std;
-namespace DataHandler {
-
-
-    void TextDataWriter::write( std::string file_path, double* vec, int size, double time ) {
+namespace DataHandler{
+    void TextDataWriter::write( string filePath, double** matrix, double* vector, int size ) {
         ofstream file;
-        file.open( file_path );
-        file << "vector:" << endl;
-        for ( int k = 0; k < size; ++k ) {
-            file << vec[k] << (k == size - 1 ? "\n" : ",");
+        file.open(filePath);
+        file << "matrix:" << endl;
+        for ( int i = 0; i < size; ++i ) {
+            for ( int j = 0; j < size; ++j ) {
+                file << matrix[i][j] << " ";
+            }
+            file << endl;
         }
-        file << "time taken:" << endl;
-        file << time;
+        file << "vector:" << endl;
+        for ( int i = 0; i < size; ++i ) {
+            file << vector[i] << " ";
+        }
         file.close();
     }
-
 }

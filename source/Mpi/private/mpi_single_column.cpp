@@ -2,7 +2,7 @@
 #include <memory>
 #include <chrono>
 #include <DataHandler/TextDataReader.h>
-#include <DataHandler/TextDataWriter.h>
+#include <DataHandler/ResultTextDataWriter.h>
 #include <mpi.h>
 
 using namespace std;
@@ -42,7 +42,7 @@ int main( int argc, char** argv ) {
     MPI_Reduce(vector, result, size, MPI_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
     if(rank == MASTER){
         auto end = chrono::steady_clock::now();
-        TextDataWriter().write( argv[2], result, size, chrono::duration<double, milli>( end - start ).count());
+        ResultTextDataWriter().write( argv[2], result, size, chrono::duration<double, milli>( end - start ).count());
     }
     MPI_Barrier(MPI_COMM_WORLD);
     MPI_Finalize();

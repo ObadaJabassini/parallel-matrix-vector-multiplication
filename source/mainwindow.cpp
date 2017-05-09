@@ -13,6 +13,8 @@
 #include <RandomGenerator/NormalRandomGenerator.h>
 #include <Performance/ResultWriter.h>
 #include <Performance/Benchmarker.h>
+#include <include/Ui/dialog.h>
+#include <include/DataHandler/TextDataWriter.h>
 
 using namespace std;
 using namespace DataHandler;
@@ -68,9 +70,6 @@ void MainWindow::generate() {
     delete generator;
 }
 
-void MainWindow::insert() {
-
-}
 
 void MainWindow::addItem() {
     auto len = ui->listWidget->count();
@@ -105,6 +104,38 @@ void MainWindow::benchmark() {
 void MainWindow::loadButton() {
     filePath = QFileDialog::getOpenFileName( this, tr( "Select Your file:" ));
 }
+
+void MainWindow::insertData( QString matrix, QString vector ) {
+    string filePath = QFileDialog::getOpenFileName( this, tr( "Select Your file:" )).toStdString();
+    auto sp = vector.split(" ");
+    auto ma = matrix.split("\n");
+    double* vec, **mat;
+    int size = sp.count();
+    vec = new double[size];
+    mat = new double*[size];
+    for ( int i = 0; i < size; ++i ) {
+        mat[i] = new double[size];
+    }
+    for ( int i = 0; i < size; ++i ) {
+        vec[i] = std::stod(sp[i].toStdString());
+    }
+    for ( int i = 0; i < size; ++i ) {
+        auto temp = ma[i].split(" ");
+        for ( int j = 0; j < size; ++j ) {
+            mat[i][j] = std::stod(temp[j].toStdString());
+        }
+    }
+    auto writer = make_shared<TextDataWriter>();
+    writer->write(filePath, mat, vec, size);
+}
+
+void MainWindow::insert() {
+    auto dialog = new Dialog();
+    QObject::connect(dialog, SIGNAL(getData(QString, QString)), this, SLOT(insertData(QString, QString)));
+    dialog->exec();
+    delete dialog;
+}
+
 
 
 #include "mainwindow.moc"

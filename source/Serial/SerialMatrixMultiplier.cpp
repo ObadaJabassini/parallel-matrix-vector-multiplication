@@ -4,7 +4,7 @@
 #include <memory>
 #include <iostream>
 #include <DataHandler/TextDataReader.h>
-#include <DataHandler/TextDataWriter.h>
+#include <DataHandler/ResultTextDataWriter.h>
 #include <Serial/MatrixMultiplier.h>
 #include <Serial/SerialMatrixMultiplier.h>
 
@@ -28,7 +28,7 @@ void SerialMatrixMultiplier::multiply(std::string result_file_path) {
         }
     }
     auto end = chrono::steady_clock::now();
-    TextDataWriter().write(result_file_path, result, size, chrono::duration <double, milli> (end - start).count());
+    ResultTextDataWriter().write(result_file_path, result, size, chrono::duration <double, milli> (end - start).count());
     delete result;
     delete vector;
     for ( int k = 0; k < size; ++k ) {

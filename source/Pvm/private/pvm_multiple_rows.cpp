@@ -3,7 +3,7 @@
 #include <memory>
 #include <chrono>
 #include <DataHandler/TextDataReader.h>
-#include <DataHandler/TextDataWriter.h>
+#include <DataHandler/ResultTextDataWriter.h>
 
 using namespace std;
 using namespace DataHandler;
@@ -150,7 +150,7 @@ int main( int argc, char** argv ) {
             }
         }
         auto end = chrono::steady_clock::now();
-        TextDataWriter().write( argv[2], vector, cols,
+        ResultTextDataWriter().write( argv[2], vector, cols,
                                 chrono::duration<double, milli>( end - start ).count());
     } else {
         pvm_initsend( PvmDataDefault );

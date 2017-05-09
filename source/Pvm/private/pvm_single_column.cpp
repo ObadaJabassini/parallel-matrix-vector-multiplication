@@ -4,7 +4,7 @@
 #include <chrono>
 #include <algorithm>
 #include <DataHandler/TextDataReader.h>
-#include <DataHandler/TextDataWriter.h>
+#include <DataHandler/ResultTextDataWriter.h>
 
 using namespace std;
 using namespace DataHandler;
@@ -78,7 +78,7 @@ int main( int argc, char** argv ) {
     pvm_reduce( PvmSum, vector, size, PVM_DOUBLE, 4, groupName, allRoot );
     if ( is_parent ) {
         auto end = chrono::steady_clock::now();
-        TextDataWriter().write( argv[2], vector, size, chrono::duration<double, milli>( end - start ).count());
+        ResultTextDataWriter().write( argv[2], vector, size, chrono::duration<double, milli>( end - start ).count());
     }
     pvm_barrier( groupName, size );
     pvm_lvgroup( groupName );
