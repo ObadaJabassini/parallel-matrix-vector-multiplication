@@ -123,7 +123,7 @@ void MainWindow::insert() {
 }
 
 void MainWindow::benchmark() {
-    string resultFilePath = QFileDialog::getOpenFileName( this, tr( "Select Your file:" )).toStdString();
+    string resultFilePath = QFileDialog::getOpenFileName( this, tr( "Select Your file:" ), tr("/home/ojabassini")).toStdString();
     vector<MatrixMultiplier*> multipliers;
     vector<string> names;
     string filePath = this->filePath.toStdString();

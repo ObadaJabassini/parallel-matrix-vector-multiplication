@@ -61,7 +61,7 @@ int main( int argc, char** argv ) {
         start = chrono::steady_clock::now();
         count = rows / block_size;
         others = new int[count - 1];
-        int cc = pvm_spawn( "/home/ojabassini/CLionProjects/parallel-matrix-vector-multiplication/bin/multiple_rows",
+        int cc = pvm_spawn( "/home/ojabassini/CLionProjects/parallel-matrix-vector-multiplication/bin/pvm_multiple_rows",
                             NULL,
                             0,
                             "",

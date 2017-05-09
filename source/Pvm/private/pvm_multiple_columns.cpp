@@ -56,7 +56,7 @@ int main( int argc, char** argv ) {
         }
         count = cols / block_size;
         int* child_id = new int[count - 1];
-        int cc = pvm_spawn( "/home/ojabassini/CLionProjects/parallel-matrix-vector-multiplication/bin/multiple_columns",
+        int cc = pvm_spawn( "/home/ojabassini/CLionProjects/parallel-matrix-vector-multiplication/bin/pvm_multiple_columns",
                             NULL,
                             0,
                             "",

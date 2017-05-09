@@ -28,7 +28,7 @@ int main( int argc, char** argv ) {
                              vector );
         start = chrono::steady_clock::now();
         others = new int[size - 1];
-        int cc = pvm_spawn( "/home/ojabassini/CLionProjects/parallel-matrix-vector-multiplication/bin/single_row",
+        int cc = pvm_spawn( "/home/ojabassini/CLionProjects/parallel-matrix-vector-multiplication/bin/pvm_single_row",
                             NULL,
                             0,
                             "",
@@ -56,10 +56,6 @@ int main( int argc, char** argv ) {
         pvm_upkint( &size, 1, 1 );
         row = new double[size];
         pvm_upkdouble( row, size, 1 );
-        for ( int k = 0; k < size; ++k ) {
-            cout << row[k] << " ";
-        }
-        cout << endl;
         pvm_upkdouble( &element, 1, 1 );
         others = new int[size - 1];
         int* sib = new int[size - 1];

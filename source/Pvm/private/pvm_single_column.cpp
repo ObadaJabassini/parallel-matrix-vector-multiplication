@@ -26,7 +26,7 @@ int main( int argc, char** argv ) {
                              vector );
         int* child_id = new int[size - 1];
         start = chrono::steady_clock::now();
-        int cc = pvm_spawn( "/home/ojabassini/CLionProjects/parallel-matrix-vector-multiplication/bin/single_column",
+        int cc = pvm_spawn( "/home/ojabassini/CLionProjects/parallel-matrix-vector-multiplication/bin/pvm_single_column",
                             NULL,
                             0,
                             "",
