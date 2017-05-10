@@ -6,16 +6,18 @@ OffsetDialog::OffsetDialog(QWidget *parent) :
         ui(new Ui::OffsetDialog)
 {
     ui->setupUi(this);
-    QObject::connect(this, SLOT(accept()), this, SLOT(handle()));
-}
-
-void OffsetDialog::handle(){
-    emit getData(ui->offsetBox->value());
+    QObject::connect(ui->cancelButton, SIGNAL(clicked(bool)), this, SLOT(close()));
+    QObject::connect(ui->okButton, SIGNAL(clicked(bool)), this, SLOT(handle()));
 }
 
 OffsetDialog::~OffsetDialog()
 {
     delete ui;
+}
+
+void OffsetDialog::handle(){
+    emit sendData(ui->offsetBox->value());
+    this->close();
 }
 
 #include "offsetdialog.moc"

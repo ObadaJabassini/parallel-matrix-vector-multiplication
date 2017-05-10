@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-    <class>OffsetDialog</class>
-    <widget class="QDialog" name="OffsetDialog">
+    <class>InsertDialog</class>
+    <widget class="QDialog" name="InsertDialog">
         <property name="geometry">
             <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>330</width>
-                <height>171</height>
+                <width>400</width>
+                <height>300</height>
             </rect>
         </property>
         <property name="windowTitle">
@@ -16,13 +16,45 @@
         <widget class="QWidget" name="">
             <property name="geometry">
                 <rect>
-                    <x>120</x>
-                    <y>110</y>
-                    <width>176</width>
+                    <x>10</x>
+                    <y>20</y>
+                    <width>291</width>
+                    <height>221</height>
+                </rect>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout">
+                <item>
+                    <widget class="QLabel" name="label">
+                        <property name="text">
+                            <string>Enter Your Matrix:</string>
+                        </property>
+                    </widget>
+                </item>
+                <item>
+                    <widget class="QTextEdit" name="matrixEdit"/>
+                </item>
+                <item>
+                    <widget class="QLabel" name="label_2">
+                        <property name="text">
+                            <string>Enter Your Vector:</string>
+                        </property>
+                    </widget>
+                </item>
+                <item>
+                    <widget class="QLineEdit" name="vectorEdit"/>
+                </item>
+            </layout>
+        </widget>
+        <widget class="QWidget" name="">
+            <property name="geometry">
+                <rect>
+                    <x>200</x>
+                    <y>250</y>
+                    <width>168</width>
                     <height>30</height>
                 </rect>
             </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <layout class="QHBoxLayout" name="horizontalLayout">
                 <item>
                     <widget class="QPushButton" name="cancelButton">
                         <property name="text">
@@ -36,28 +68,6 @@
                             <string>Ok</string>
                         </property>
                     </widget>
-                </item>
-            </layout>
-        </widget>
-        <widget class="QWidget" name="">
-            <property name="geometry">
-                <rect>
-                    <x>40</x>
-                    <y>60</y>
-                    <width>261</width>
-                    <height>31</height>
-                </rect>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout">
-                <item>
-                    <widget class="QLabel" name="label">
-                        <property name="text">
-                            <string>Your Offset:</string>
-                        </property>
-                    </widget>
-                </item>
-                <item>
-                    <widget class="QSpinBox" name="offsetBox"/>
                 </item>
             </layout>
         </widget>

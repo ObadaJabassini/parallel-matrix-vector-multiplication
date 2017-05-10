@@ -13,9 +13,9 @@
 #include <RandomGenerator/NormalRandomGenerator.h>
 #include <Performance/ResultWriter.h>
 #include <Performance/Benchmarker.h>
-#include <include/Ui/dialog.h>
-#include <include/DataHandler/TextDataWriter.h>
-#include <include/Ui/offsetdialog.h>
+#include <Ui/offsetdialog.h>
+#include <Ui/insertdialog.h>
+#include <DataHandler/TextDataWriter.h>
 
 using namespace std;
 using namespace DataHandler;
@@ -69,7 +69,8 @@ void MainWindow::generate() {
     } else {
         generator = new NormalRandomGenerator();
     }
-    writer->write( path.toStdString(), generator, size );
+    auto data = writer->write( path.toStdString(), generator, size );
+    ui->resultEdit->setText(QString::fromStdString(data));
     delete generator;
 }
 
@@ -80,6 +81,9 @@ void MainWindow::addItem() {
         auto len = ui->listWidget->count();
         for ( int i = 0; i < len; ++i ) {
             if ( temp == ui->listWidget->item( i )->text()) {
+                auto message = new QMessageBox(this);
+                message->setText("Already inserted");
+                message->show();
                 return;
             }
         }
@@ -87,16 +91,21 @@ void MainWindow::addItem() {
     }
     else{
         auto dialog = new OffsetDialog(this);
-        QObject::connect(dialog, SIGNAL(getData(int)), this, SLOT(addOffset(int)));
+        QObject::connect(dialog, SIGNAL(sendData(int)), this, SLOT(addOffset(int)));
         dialog->exec();
     }
 }
 
 void MainWindow::removeItem() {
     auto items = ui->listWidget->selectedItems();
+    auto len = this->offsets.count();
     for(auto& temp : items){
         if(temp->text().contains("Multiple")){
-            offsets.pop_front();
+            for ( int i = 0; i < len; ++i ) {
+                if(offsets[i].first == temp->text()){
+                    offsets.remove(i);
+                }
+            }
         }
     }
     qDeleteAll(items);
@@ -128,11 +137,12 @@ void MainWindow::insertData( QString matrix, QString vector ) {
     }
     auto writer = make_shared<TextDataWriter>();
     writer->write(filePath, mat, vec, size);
+    ui->resultEdit->setText(QString::fromStdString("matrix:\n") + matrix + QString::fromStdString("\nvector:\n") + vector);
 }
 
 void MainWindow::insert() {
-    auto dialog = new Dialog();
-    QObject::connect(dialog, SIGNAL(getData(QString, QString)), this, SLOT(insertData(QString, QString)));
+    auto dialog = new InsertDialog();
+    QObject::connect(dialog, SIGNAL(sendData(QString, QString)), this, SLOT(insertData(QString, QString)));
     dialog->exec();
     delete dialog;
 }
@@ -148,7 +158,8 @@ void MainWindow::benchmark() {
         string name = temp.toStdString();
         names.push_back( name );
         if(temp.contains("Multiple")){
-            multipliers.push_back( MatrixMultiplier::create( name, filePath, offsets[j++]));
+            auto t = temp.lastIndexOf(QString::fromStdString("_"));
+            multipliers.push_back( MatrixMultiplier::create( name.substr( 0, ( unsigned long ) t ), filePath, offsets[j++].second));
         }
         else {
             multipliers.push_back( MatrixMultiplier::create( name, filePath ));
@@ -165,7 +176,8 @@ void MainWindow::benchmark() {
     timeBar->setBrush( QColor( 111, 9, 176 ));
     QVector<double> ticks;
     QVector<QString> labels;
-    for ( int i = 0; i < names.size(); ++i ) {
+    auto size = names.size();
+    for ( int i = 0; i < size; ++i ) {
         ticks << i + 1;
         labels << QString::fromStdString(names[i]);
     }
@@ -173,10 +185,13 @@ void MainWindow::benchmark() {
     textTicker->addTicks( ticks, labels );
     customPlot->xAxis->setTicker( textTicker );
     QVector<double> timeData;
-    for ( int i = 0; i < data.size(); ++i ) {
-        timeData << data[i] * 10;
+    auto first = data.first;
+    auto len1 = first.size();
+    for ( int i = 0; i < len1; ++i ) {
+        timeData << first[i] * 10;
     }
     timeBar->setData( ticks, timeData );
+    ui->resultEdit->setText(QString::fromStdString("vector:\n") + QString::fromStdString(data.second));
 }
 
 void MainWindow::initCustomPlot() {
@@ -197,7 +212,7 @@ void MainWindow::initCustomPlot() {
     customPlot->xAxis->setLabelColor( Qt::white );
     customPlot->yAxis->setRange( 0, 12.1 );
     customPlot->yAxis->setPadding( 5 ); // a bit more space to the left border
-    customPlot->yAxis->setLabel( "Time Consumed In Every method" );
+    customPlot->yAxis->setLabel( "Time Consumed" );
     customPlot->yAxis->setBasePen( QPen( Qt::white ));
     customPlot->yAxis->setTickPen( QPen( Qt::white ));
     customPlot->yAxis->setSubTickPen( QPen( Qt::white ));
@@ -214,8 +229,17 @@ void MainWindow::initCustomPlot() {
 }
 
 void MainWindow::addOffset( int value ) {
-    offsets << value;
-    ui->listWidget->addItem(ui->choiceBox->currentText());
+    auto temp = ui->choiceBox->currentText() + QString::fromStdString("_") + QString(value);
+    for ( int i = 0; i < ui->listWidget->count(); ++i ) {
+        if(temp == ui->listWidget->item(i)->text()){
+            auto message = new QMessageBox(this);
+            message->setText("Already inserted");
+            message->show();
+            return;
+        }
+    }
+    offsets << std::make_pair(temp, value);
+    ui->listWidget->addItem(temp + QString(value));
 }
 
 #include "mainwindow.moc"

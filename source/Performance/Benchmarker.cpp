@@ -1,4 +1,7 @@
 #include <Performance/Benchmarker.h>
+#include <QtCore/QString>
+#include <QtCore/QStringList>
+#include <iostream>
 
 namespace Performance {
 
@@ -6,16 +9,19 @@ namespace Performance {
         this->multipliers = multipliers;
     }
 
-    std::vector<double> Benchmarker::benchmark() {
+    std::pair<std::vector<double>, std::string> Benchmarker::benchmark() {
         auto len = this->multipliers.size();
         std::vector<double> times;
-        for ( int i = 0; i < len; ++i ) {
+        auto t = QString::fromStdString(multipliers[0]->multiply( false));
+        auto t1 = t.split("\n");
+        times.push_back(t1[1].trimmed().toDouble());
+        for ( int i = 1; i < len; ++i ) {
             times.push_back( std::stod( multipliers[i]->multiply( true )));
         }
-        return times;
+        return std::make_pair(times, t1[0].trimmed().toStdString());
     }
 
-    std::vector<double> Benchmarker::measure() {
+    std::pair<std::vector<double>, std::string> Benchmarker::measure() {
         return this->benchmark();
     }
 

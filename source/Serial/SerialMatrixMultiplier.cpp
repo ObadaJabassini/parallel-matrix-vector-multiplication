@@ -10,15 +10,15 @@
 
 using namespace DataHandler;
 
-SerialMatrixMultiplier::SerialMatrixMultiplier(std::string file_path) : MatrixMultiplier(file_path) {
+SerialMatrixMultiplier::SerialMatrixMultiplier( std::string file_path ) : MatrixMultiplier( file_path ) {
 
 }
 
-void SerialMatrixMultiplier::multiply(std::string result_file_path) {
+void SerialMatrixMultiplier::multiply( std::string result_file_path ) {
     double** matrix;
     double* vector;
     auto reader = std::make_shared<TextDataReader>();
-    int size = reader->read(file_path, matrix, vector);
+    int size = reader->read( file_path, matrix, vector );
     double* result = new double[size];
     auto start = chrono::steady_clock::now();
     for ( int i = 0; i < size; ++i ) {
@@ -28,7 +28,8 @@ void SerialMatrixMultiplier::multiply(std::string result_file_path) {
         }
     }
     auto end = chrono::steady_clock::now();
-    ResultTextDataWriter().write(result_file_path, result, size, chrono::duration <double, milli> (end - start).count());
+    ResultTextDataWriter().write( result_file_path, result, size,
+                                  chrono::duration<double, milli>( end - start ).count());
     delete result;
     delete vector;
     for ( int k = 0; k < size; ++k ) {
@@ -41,7 +42,7 @@ string SerialMatrixMultiplier::multiply( bool justTime ) {
     double** matrix;
     double* vector;
     auto reader = std::make_shared<TextDataReader>();
-    int size = reader->read(file_path, matrix, vector);
+    int size = reader->read( file_path, matrix, vector );
     double* result = new double[size];
     auto start = chrono::steady_clock::now();
     for ( int i = 0; i < size; ++i ) {
@@ -51,7 +52,15 @@ string SerialMatrixMultiplier::multiply( bool justTime ) {
         }
     }
     auto end = chrono::steady_clock::now();
-    if(justTime)
-        return std::to_string(chrono::duration <double, milli> (end - start).count());
-    throw exception();
+    auto temp = std::to_string( chrono::duration<double, milli>( end - start ).count());
+    if ( justTime )
+        return temp;
+    string res = "";
+    for ( int i = 0; i < size; ++i ) {
+        res += to_string( result[i] );
+        if ( i != size ) {
+            res += "\n";
+        }
+    }
+    return res + "\n" + temp;
 }

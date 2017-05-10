@@ -9,34 +9,37 @@ using namespace std;
 
 namespace DataHandler {
 
-    void RandomDataWriter::write( string file_path, Generator::RandomGenerator* generator, int size ) {
+    string RandomDataWriter::write( string file_path, Generator::RandomGenerator* generator, int size ) {
         ofstream file;
         file.open( file_path );
-        double** matrix = new double*[size];
+        double** matrix = new double* [size];
         for ( int i = 0; i < size; ++i ) {
             matrix[i] = new double[size];
         }
         generator->generate( matrix, size, size );
         double* vector = new double[size];
         generator->generate( vector, size );
-        file << "matrix:" << endl;
+        string res = "";
+        res += "matrix:\n";
         for ( int i = 0; i < size; ++i ) {
             for ( int j = 0; j < size; ++j ) {
-                file << matrix[i][j];
+                res += std::to_string( matrix[i][j] );
                 if ( j == size - 1 )
-                    file << endl;
+                    res += "\n";
                 else {
-                    file << " ";
+                    res += " ";
                 }
             }
         }
-        file << "vector:" << endl;
+        res += "vector:\n";
         for ( int k = 0; k < size; ++k ) {
-            file << vector[k];
+            res += std::to_string(vector[k]);
             if ( k != size - 1 )
-                file << " ";
+                res += " ";
         }
+        file << res;
         file.close();
+        return res;
     }
 
 }

@@ -15,7 +15,7 @@ namespace DataHandler {
 
     class RandomDataWriter {
     public:
-        void write( string file_path, Generator::RandomGenerator* generator, int size = 3 );
+        string write( string file_path, Generator::RandomGenerator* generator, int size = 3 );
     };
 }
 

@@ -16,6 +16,7 @@
 #include <fstream>
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
 using namespace std;
 
@@ -67,6 +68,5 @@ std::string MatrixMultiplier::multiply( bool justTime ) {
     }
     if ( justTime )
         return lines[lines.size() - 1];
-    for_each( lines.begin(), lines.end(), [ & ]( string l ) { result += line + "\n"; } );
-    return result;
+    return lines[1] + "\n" + lines[lines.size() - 1];
 }

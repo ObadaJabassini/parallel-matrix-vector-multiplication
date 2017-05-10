@@ -13,9 +13,9 @@ namespace Performance {
     public:
         Benchmarker( std::vector<MatrixMultiplier*> multipliers );
 
-        std::vector<double> benchmark();
+        std::pair<std::vector<double>, std::string> benchmark();
 
-        std::vector<double> measure();
+        std::pair<std::vector<double>, std::string> measure();
 
         void setMultiplier( std::vector<MatrixMultiplier*> multipliers );
     };

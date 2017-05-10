@@ -42,7 +42,7 @@ private:
     void initCustomPlot();
     void initEvents();
     QString filePath;
-    QVector<int> offsets;
+    QVector<std::pair<QString,int> > offsets;
     Ui::MainWindow* ui;
 };
 
