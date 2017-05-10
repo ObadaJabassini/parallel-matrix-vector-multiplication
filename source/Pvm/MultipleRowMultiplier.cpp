@@ -16,8 +16,7 @@ namespace Pvm {
     }
 
     void MultipleRowMultiplier::multiply( std::string result_file_path ) {
-        system(("/home/ojabassini/CLionProjects/parallel-matrix-vector-multiplication/bin/pvm_multiple_rows " + file_path + " " + std::to_string( rows ) + " " +
-                result_file_path).c_str());
+        system(("/home/ojabassini/CLionProjects/parallel-matrix-vector-multiplication/bin/pvm_multiple_rows " + file_path + " " + result_file_path + " " + std::to_string( rows )).c_str());
     }
 
 }

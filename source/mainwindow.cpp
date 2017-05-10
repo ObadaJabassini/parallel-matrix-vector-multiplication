@@ -91,6 +91,7 @@ void MainWindow::addItem() {
     }
     else{
         auto dialog = new OffsetDialog(this);
+        dialog->setToolTip(QString::fromStdString("Your Offset"));
         QObject::connect(dialog, SIGNAL(sendData(int)), this, SLOT(addOffset(int)));
         dialog->exec();
     }
@@ -142,6 +143,7 @@ void MainWindow::insertData( QString matrix, QString vector ) {
 
 void MainWindow::insert() {
     auto dialog = new InsertDialog();
+    dialog->setToolTip(QString::fromStdString("Your Data"));
     QObject::connect(dialog, SIGNAL(sendData(QString, QString)), this, SLOT(insertData(QString, QString)));
     dialog->exec();
     delete dialog;
