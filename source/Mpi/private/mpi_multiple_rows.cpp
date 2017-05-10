@@ -24,6 +24,7 @@ int main( int argc, char** argv ) {
         cols = reader->read( argv[1],
                              mat,
                              vector );
+        start = chrono::steady_clock::now();
         rows = cols;
         if ( cols % offset != 0 ) {
             rows = cols + cols % offset;

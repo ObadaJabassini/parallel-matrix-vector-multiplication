@@ -30,6 +30,7 @@ int main( int argc, char** argv ) {
         cols = reader->read( argv[1],
                              mat,
                              vector );
+        start = chrono::steady_clock::now();
         rows = cols;
         if ( cols % block_size != 0 ) {
             rows = cols + cols % block_size;
@@ -58,7 +59,6 @@ int main( int argc, char** argv ) {
                 }
             }
         }
-        start = chrono::steady_clock::now();
         count = rows / block_size;
         if(count != 1) {
             others = new int[count - 1];
