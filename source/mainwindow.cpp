@@ -11,6 +11,7 @@
 #include <QtWidgets/QFileDialog>
 #include <RandomGenerator/UniformRandomGenerator.h>
 #include <RandomGenerator/NormalRandomGenerator.h>
+#include <RandomGenerator/ExponentialRandomGenerator.h>
 #include <Performance/ResultWriter.h>
 #include <Performance/Benchmarker.h>
 #include <Ui/offsetdialog.h>
@@ -31,7 +32,7 @@ MainWindow::MainWindow( QWidget* parent ) :
     QStringListModel* model = new QStringListModel( this ),
             * model1 = new QStringListModel( this );
     QStringList list;
-    list << "Uniform" << "Normal" << "Rubbish";
+    list << "Uniform" << "Normal" << "Exponential";
     model->setStringList( list );
     ui->distBox->setModel( model );
     QStringList list1;
@@ -66,7 +67,11 @@ void MainWindow::generate() {
     RandomGenerator* generator;
     if ( dist.toStdString() == "Uniform" ) {
         generator = new UniformRandomGenerator();
-    } else {
+    }
+    else if(dist.toStdString() == "Exponential"){
+        generator = new ExponentialRandomGenerator();
+    }
+    else{
         generator = new NormalRandomGenerator();
     }
     auto data = writer->write( path.toStdString(), generator, size );
@@ -91,7 +96,7 @@ void MainWindow::addItem() {
     }
     else{
         auto dialog = new OffsetDialog(this);
-        dialog->setToolTip(QString::fromStdString("Your Offset"));
+        dialog->setWindowTitle(QString::fromStdString("Your Offset"));
         QObject::connect(dialog, SIGNAL(sendData(int)), this, SLOT(addOffset(int)));
         dialog->exec();
     }
@@ -143,7 +148,7 @@ void MainWindow::insertData( QString matrix, QString vector ) {
 
 void MainWindow::insert() {
     auto dialog = new InsertDialog();
-    dialog->setToolTip(QString::fromStdString("Your Data"));
+    dialog->setWindowTitle(QString::fromStdString("Your Data"));
     QObject::connect(dialog, SIGNAL(sendData(QString, QString)), this, SLOT(insertData(QString, QString)));
     dialog->exec();
     delete dialog;
