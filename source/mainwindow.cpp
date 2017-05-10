@@ -168,12 +168,6 @@ void MainWindow::benchmark() {
     auto benchmarker = new Benchmarker( multipliers );
     auto writer = new ResultWriter( benchmarker );
     auto data = writer->write( resultFilePath, names );
-    auto timeBar = new QCPBars( customPlot->xAxis, customPlot->yAxis );
-    timeBar->setAntialiased( false );
-    timeBar->setStackingGap( 1 );
-    timeBar->setName( "Time" );
-    timeBar->setPen( QPen( QColor( 111, 9, 176 ).lighter( 170 )));
-    timeBar->setBrush( QColor( 111, 9, 176 ));
     QVector<double> ticks;
     QVector<QString> labels;
     auto size = names.size();
@@ -226,10 +220,16 @@ void MainWindow::initCustomPlot() {
     customPlot->legend->setBrush( QColor( 255, 255, 255, 100 ));
     customPlot->legend->setBorderPen( Qt::NoPen );
     customPlot->setInteractions( QCP::iRangeDrag | QCP::iRangeZoom );
+    timeBar = new QCPBars( customPlot->xAxis, customPlot->yAxis );
+    timeBar->setAntialiased( false );
+    timeBar->setStackingGap( 1 );
+    timeBar->setName( "Time" );
+    timeBar->setPen( QPen( QColor( 111, 9, 176 ).lighter( 170 )));
+    timeBar->setBrush( QColor( 111, 9, 176 ));
 }
 
 void MainWindow::addOffset( int value ) {
-    auto temp = ui->choiceBox->currentText() + QString::fromStdString("_") + QString(value);
+    auto temp = ui->choiceBox->currentText() + QString::fromStdString("_") + QString::number(value);
     for ( int i = 0; i < ui->listWidget->count(); ++i ) {
         if(temp == ui->listWidget->item(i)->text()){
             auto message = new QMessageBox(this);
@@ -239,7 +239,7 @@ void MainWindow::addOffset( int value ) {
         }
     }
     offsets << std::make_pair(temp, value);
-    ui->listWidget->addItem(temp + QString(value));
+    ui->listWidget->addItem(temp);
 }
 
 #include "mainwindow.moc"

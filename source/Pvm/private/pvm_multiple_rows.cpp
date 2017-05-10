@@ -60,17 +60,20 @@ int main( int argc, char** argv ) {
         }
         start = chrono::steady_clock::now();
         count = rows / block_size;
-        others = new int[count - 1];
-        int cc = pvm_spawn( "/home/ojabassini/CLionProjects/parallel-matrix-vector-multiplication/bin/pvm_multiple_rows",
-                            NULL,
-                            0,
-                            "",
-                            count - 1,
-                            others );
-        if ( cc != count - 1 ) {
-            cout << "\nFailed to spawn required children \n...Exit...Press any Key to exit\n";
-            pvm_exit();
-            exit( -1 );
+        if(count != 1) {
+            others = new int[count - 1];
+            int cc = pvm_spawn(
+                    "/home/ojabassini/CLionProjects/parallel-matrix-vector-multiplication/bin/pvm_multiple_rows",
+                    NULL,
+                    0,
+                    "",
+                    count - 1,
+                    others );
+            if ( cc != count - 1 ) {
+                cout << "\nFailed to spawn required children \n...Exit...Press any Key to exit\n";
+                pvm_exit();
+                exit( -1 );
+            }
         }
         for ( int m = 1; m < count; ++m ) {
             pvm_initsend( PvmDataDefault );
@@ -117,17 +120,19 @@ int main( int argc, char** argv ) {
     for ( int i = 0; i < block_size; ++i ) {
         vector[index * block_size + i] = part[i];
     }
-    pvm_initsend( PvmDataDefault );
-    pvm_pkdouble( part, block_size, 1 );
-    pvm_mcast( others, count - 1, index );
+    if(count != 1) {
+        pvm_initsend( PvmDataDefault );
+        pvm_pkdouble( part, block_size, 1 );
+        pvm_mcast( others, count - 1, index );
+    }
     for ( int l = 0; l < count - 1; ++l ) {
-        int temp;
+        int t;
         int buffer = pvm_recv( -1,
                                -1 );
-        pvm_bufinfo( buffer, NULL, &temp, NULL );
+        pvm_bufinfo( buffer, NULL, &t, NULL );
         pvm_upkdouble( part, block_size, 1 );
         for ( int i = 0; i < block_size; ++i ) {
-            vector[temp * block_size + i] = part[i];
+            vector[t * block_size + i] = part[i];
         }
     }
     double* result = new double[block_size];

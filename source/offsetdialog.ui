@@ -7,16 +7,16 @@
                 <x>0</x>
                 <y>0</y>
                 <width>330</width>
-                <height>171</height>
+                <height>158</height>
             </rect>
         </property>
         <property name="windowTitle">
             <string>Dialog</string>
         </property>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
             <property name="geometry">
                 <rect>
-                    <x>120</x>
+                    <x>130</x>
                     <y>110</y>
                     <width>176</width>
                     <height>30</height>
@@ -39,11 +39,11 @@
                 </item>
             </layout>
         </widget>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
             <property name="geometry">
                 <rect>
                     <x>40</x>
-                    <y>60</y>
+                    <y>50</y>
                     <width>261</width>
                     <height>31</height>
                 </rect>
@@ -52,7 +52,7 @@
                 <item>
                     <widget class="QLabel" name="label">
                         <property name="text">
-                            <string>Your Offset:</string>
+                            <string>Enter Your Offset:</string>
                         </property>
                     </widget>
                 </item>

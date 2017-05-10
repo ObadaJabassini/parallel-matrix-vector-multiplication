@@ -39,6 +39,7 @@ public slots:
 
 private:
     QCustomPlot* customPlot;
+    QCPBars* timeBar;
     void initCustomPlot();
     void initEvents();
     QString filePath;

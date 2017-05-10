@@ -58,8 +58,8 @@ string SerialMatrixMultiplier::multiply( bool justTime ) {
     string res = "";
     for ( int i = 0; i < size; ++i ) {
         res += to_string( result[i] );
-        if ( i != size ) {
-            res += "\n";
+        if ( i != size - 1 ) {
+            res += " ";
         }
     }
     return res + "\n" + temp;

@@ -3,6 +3,8 @@
 #include <QtCore/QStringList>
 #include <iostream>
 
+using namespace std;
+
 namespace Performance {
 
     Benchmarker::Benchmarker( std::vector<MatrixMultiplier*> multipliers ) {
@@ -14,11 +16,12 @@ namespace Performance {
         std::vector<double> times;
         auto t = QString::fromStdString(multipliers[0]->multiply( false));
         auto t1 = t.split("\n");
-        times.push_back(t1[1].trimmed().toDouble());
+        times.push_back(t1[1].toDouble());
+        cout << t1[0].toStdString() << endl;
         for ( int i = 1; i < len; ++i ) {
             times.push_back( std::stod( multipliers[i]->multiply( true )));
         }
-        return std::make_pair(times, t1[0].trimmed().toStdString());
+        return std::make_pair(times, t1[0].toStdString());
     }
 
     std::pair<std::vector<double>, std::string> Benchmarker::measure() {

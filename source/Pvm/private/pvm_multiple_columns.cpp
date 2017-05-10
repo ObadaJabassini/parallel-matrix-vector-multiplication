@@ -55,24 +55,27 @@ int main( int argc, char** argv ) {
             vector = temp2;
         }
         count = cols / block_size;
-        int* child_id = new int[count - 1];
-        int cc = pvm_spawn( "/home/ojabassini/CLionProjects/parallel-matrix-vector-multiplication/bin/pvm_multiple_columns",
-                            NULL,
-                            0,
-                            "",
-                            count - 1,
-                            child_id );
-        if ( cc != count - 1 ) {
-            cout << "\nFailed to spwan required children\n...Exit...Press any Key to exit\n";
-            pvm_exit();
-            exit( -1 );
+        if(count != 1) {
+            int* child_id = new int[count - 1];
+            int cc = pvm_spawn(
+                    "/home/ojabassini/CLionProjects/parallel-matrix-vector-multiplication/bin/pvm_multiple_columns",
+                    NULL,
+                    0,
+                    "",
+                    count - 1,
+                    child_id );
+            if ( cc != count - 1 ) {
+                cout << "\nFailed to spwan required children\n...Exit...Press any Key to exit\n";
+                pvm_exit();
+                exit( -1 );
+            }
+            pvm_initsend( PvmDataDefault );
+            pvm_pkint( &rows, 1, 1 );
+            pvm_pkint( &cols, 1, 1 );
+            pvm_pkint( &block_size, 1, 1 );
+            pvm_pkint( &count, 1, 1 );
+            pvm_mcast( child_id, count - 1, 1 );
         }
-        pvm_initsend(PvmDataDefault);
-        pvm_pkint(&rows, 1, 1);
-        pvm_pkint(&cols, 1, 1);
-        pvm_pkint(&block_size, 1, 1);
-        pvm_pkint(&count, 1, 1);
-        pvm_mcast(child_id, count - 1, 1);
     }
     else{
         pvm_recv(-1, -1);
