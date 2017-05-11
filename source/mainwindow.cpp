@@ -30,6 +30,7 @@ MainWindow::MainWindow( QWidget* parent ) :
         QMainWindow( parent ) {
     ui = new Ui::MainWindow();
     ui->setupUi( this );
+    setWindowTitle(QString::fromStdString("Project"));
     customPlot = ui->plotWidget;
     initCustomPlot();
     QStringListModel* model = new QStringListModel( this ),
@@ -202,9 +203,10 @@ void MainWindow::benchmark() {
 
 void MainWindow::initCustomPlot() {
     QLinearGradient gradient( 0, 0, 0, 400 );
-    gradient.setColorAt( 0, QColor( 90, 90, 90 ));
-    gradient.setColorAt( 0.38, QColor( 105, 105, 105 ));
-    gradient.setColorAt( 1, QColor( 70, 70, 70 ));
+    gradient.setColorAt( 0, QColor( 49, 54, 59 ));
+    //gradient.setColorAt( 0.38, QColor( 105, 105, 105 ));
+    gradient.setColorAt( 0.38, QColor( 49, 54, 59 ));
+    gradient.setColorAt( 1, QColor( 49, 54, 59 ));
     customPlot->setBackground( QBrush( gradient ));
     customPlot->xAxis->setTickLabelRotation( 60 );
     customPlot->xAxis->setSubTicks( false );
@@ -236,8 +238,10 @@ void MainWindow::initCustomPlot() {
     timeBar->setAntialiased( false );
     timeBar->setStackingGap( 1 );
     timeBar->setName( "Time" );
-    timeBar->setPen( QPen( QColor( 111, 9, 176 ).lighter( 170 )));
-    timeBar->setBrush( QColor( 111, 9, 176 ));
+    //auto temp = QColor( 111, 9, 176 );
+    auto temp = QColor( 20, 20, 20 );
+    timeBar->setPen( QPen( temp.lighter( 170 )));
+    timeBar->setBrush( temp);
 }
 
 void MainWindow::addOffset( int value ) {
