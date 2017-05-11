@@ -32,6 +32,7 @@ MainWindow::MainWindow( QWidget* parent ) :
     ui->setupUi( this );
     setWindowTitle(QString::fromStdString("Project"));
     customPlot = ui->plotWidget;
+    ui->tabWidget->setCurrentIndex(0);
     initCustomPlot();
     QStringListModel* model = new QStringListModel( this ),
             * model1 = new QStringListModel( this );
