@@ -18,6 +18,7 @@
 #include <Ui/insertdialog.h>
 #include <DataHandler/TextDataWriter.h>
 #include <Ui/uniformdialog.h>
+#include <QDialog>
 #include <Ui/normaldialog.h>
 #include <RandomGenerator/RubbishRandomGenerator.h>
 
@@ -63,26 +64,28 @@ void MainWindow::initEvents() {
 
 void MainWindow::generate() {
     QString dist = ui->distBox->currentText();
+    QDialog* dialog = nullptr;
     if ( dist.toStdString() == "Uniform" ) {
-        auto dialog = new UniformDialog();
+        dialog = new UniformDialog();
         dialog->setWindowTitle(QString::fromStdString("Select Your parameters:"));
         QObject::connect(dialog, SIGNAL(sendData(double, double)), this, SLOT(handleUniform(double, double)));
-        dialog->show();
     }
     else if(dist.toStdString() == "Exponential"){
-        auto dialog = new UniformDialog();
+        dialog = new UniformDialog();
         dialog->setWindowTitle(QString::fromStdString("Select Your parameters:"));
         QObject::connect(dialog, SIGNAL(sendData(double)), this, SLOT(handleExp(double)));
-        dialog->show();
     }
-    else if(dist.toStdString() == "Rubbish"){
-        generateData(new RubbishRandomGenerator());
-    }
-    else{
-        auto dialog = new NormalDialog();
+    else if(dist.toStdString() == "Normal"){
+        dialog = new NormalDialog();
         dialog->setWindowTitle(QString::fromStdString("Select Your parameters:"));
         QObject::connect(dialog, SIGNAL(sendData(double, double)), this, SLOT(handleNormal(double, double)));
+    }
+    else{
+        generateData(new RubbishRandomGenerator());
+    }
+    if(dialog != nullptr){
         dialog->show();
+        delete dialog;
     }
 }
 
@@ -106,6 +109,7 @@ void MainWindow::addItem() {
         dialog->setWindowTitle(QString::fromStdString("Your Offset"));
         QObject::connect(dialog, SIGNAL(sendData(int)), this, SLOT(addOffset(int)));
         dialog->exec();
+        delete dialog;
     }
 }
 
@@ -151,6 +155,11 @@ void MainWindow::insertData( QString matrix, QString vector ) {
     auto writer = make_shared<TextDataWriter>();
     writer->write(filePath, mat, vec, size);
     ui->resultEdit->setText(QString::fromStdString("matrix:\n") + matrix + QString::fromStdString("\nvector:\n") + vector);
+    delete vec;
+    for ( int i = 0; i < size; ++i ) {
+        delete mat[i];
+    }
+    delete mat;
 }
 
 void MainWindow::insert() {
@@ -200,6 +209,12 @@ void MainWindow::benchmark() {
     }
     timeBar->setData( ticks, timeData );
     ui->resultEdit->setText(QString::fromStdString("vector:\n") + QString::fromStdString(data.second));
+    delete writer;
+    delete benchmarker;
+    len1 = multipliers.size();
+    for ( int i = 0; i < len1; ++i ) {
+        delete multipliers[i];
+    }
 }
 
 void MainWindow::initCustomPlot() {
