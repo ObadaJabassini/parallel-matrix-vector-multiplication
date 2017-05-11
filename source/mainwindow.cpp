@@ -221,7 +221,7 @@ void MainWindow::initCustomPlot() {
     customPlot->xAxis->setLabelColor( Qt::white );
     customPlot->yAxis->setRange( 0, 12.1 );
     customPlot->yAxis->setPadding( 5 ); // a bit more space to the left border
-    customPlot->yAxis->setLabel( "Time Consumed" );
+    customPlot->yAxis->setLabel( "Time Consumed(Multiplied By 10 In Milliseconds)" );
     customPlot->yAxis->setBasePen( QPen( Qt::white ));
     customPlot->yAxis->setTickPen( QPen( Qt::white ));
     customPlot->yAxis->setSubTickPen( QPen( Qt::white ));

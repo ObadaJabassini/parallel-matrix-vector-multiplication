@@ -27,7 +27,7 @@ namespace Mpi {
             if(line != "")
                 size++;
         }
-        system((string("mpirun -np ") + to_string(size - 3) + " /home/ojabassini/CLionProjects/parallel-matrix-vector-multiplication/bin/mpi_single_column " + file_path + " " + result_file_path).c_str());
+        system((string("mpirun -n ") + to_string(size - 3) + " /home/ojabassini/CLionProjects/parallel-matrix-vector-multiplication/bin/mpi_single_column " + file_path + " " + result_file_path).c_str());
     }
 
 }

@@ -5,7 +5,7 @@
 #ifndef PROJECT_SINGLECOLUMNMULTIPLIERSECOND_H
 #define PROJECT_SINGLECOLUMNMULTIPLIERSECOND_H
 
-#include "../Serial/MatrixMultiplier.h";
+#include "../Serial/MatrixMultiplier.h"
 
 namespace Mpi {
     class SingleColumnMultiplierSecond : public MatrixMultiplier {
