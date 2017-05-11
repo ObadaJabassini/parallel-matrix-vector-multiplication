@@ -1,6 +1,3 @@
-//
-// Created by obada on 5/1/17.
-//
 
 #include <Pvm/SingleColumnMultiplierSecond.h>
 #include <string>

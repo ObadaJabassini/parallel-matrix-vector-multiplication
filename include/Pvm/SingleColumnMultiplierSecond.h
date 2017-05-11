@@ -2,8 +2,8 @@
 // Created by ojabassini on 5/11/17.
 //
 
-#ifndef PROJECT_SINGLECOLUMNMULTIPLIERSECOND_H
-#define PROJECT_SINGLECOLUMNMULTIPLIERSECOND_H
+#ifndef PROJECT_SECOND_H
+#define PROJECT_SECOND_H
 
 #include <Serial/MatrixMultiplier.h>
 

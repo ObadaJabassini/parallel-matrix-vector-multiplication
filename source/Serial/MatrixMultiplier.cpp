@@ -8,15 +8,17 @@
 #include <Pvm/SingleColumnMultiplier.h>
 #include <Pvm/MultipleRowMultiplier.h>
 #include <Pvm/MultipleColumnMultiplier.h>
-#include <include/Pvm/MultipleColumnMultiplier.h>
-#include <include/Mpi/MultipleRowMultiplier.h>
-#include <include/Mpi/SingleColumnMultiplier.h>
-#include <include/Mpi/SingleRowMultiplier.h>
-#include <include/Mpi/MultipleColumnMultiplier.h>
+#include <Pvm/MultipleColumnMultiplier.h>
+#include <Mpi/MultipleRowMultiplier.h>
+#include <Mpi/SingleColumnMultiplier.h>
+#include <Mpi/SingleRowMultiplier.h>
+#include <Mpi/MultipleColumnMultiplier.h>
 #include <fstream>
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <Mpi/SingleColumnMultiplierSecond.h>
+#include <Pvm/SingleColumnMultiplierSecond.h>
 
 using namespace std;
 
@@ -34,6 +36,9 @@ MatrixMultiplier* MatrixMultiplier::create( std::string name, std::string filePa
     if(name == "Pvm_Single_Column"){
         return new Pvm::SingleColumnMultiplier(filePath);
     }
+    if(name == "Pvm_Single_Column_Second"){
+        return new Pvm::SingleColumnMultiplierSecond(filePath);
+    }
     if(name == "Pvm_Multiple_Row"){
         return new Pvm::MultipleRowMultiplier(filePath, offset);
     }
@@ -45,6 +50,9 @@ MatrixMultiplier* MatrixMultiplier::create( std::string name, std::string filePa
     }
     if(name == "Mpi_Single_Column"){
         return new Mpi::SingleColumnMultiplier(filePath);
+    }
+    if(name == "Mpi_Single_Column_Second"){
+        return new Mpi::SingleColumnMultiplierSecond(filePath);
     }
     if(name == "Mpi_Multiple_Row"){
         return new Mpi::MultipleRowMultiplier(filePath, offset);
