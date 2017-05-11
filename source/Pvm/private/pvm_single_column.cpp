@@ -10,11 +10,11 @@ using namespace std;
 using namespace DataHandler;
 
 int main( int argc, char** argv ) {
-    pvm_catchout(stdout);
     char* groupName = "single_column";
     int tid = pvm_mytid();
     int parent_tid = pvm_parent();
     bool is_parent = (parent_tid == PvmNoParent) || (parent_tid == PvmParentNotSet);
+    pvm_catchout(stdout);
     int size;
     double** matrix;
     double* vector;

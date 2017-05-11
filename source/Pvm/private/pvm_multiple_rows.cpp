@@ -12,9 +12,9 @@ int main( int argc, char** argv ) {
     double* vector;
     double* part;
     double* matrix;
-    pvm_catchout( stdout );
     int tid = pvm_mytid();
     int parent_tid = pvm_parent();
+    pvm_catchout( stdout );
     bool is_parent = (parent_tid == PvmNoParent) || (parent_tid == PvmParentNotSet);
     auto start = chrono::steady_clock::now();
     int rows, cols, index;

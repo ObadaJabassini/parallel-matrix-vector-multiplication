@@ -66,5 +66,6 @@ int main( int argc, char** argv ) {
     else{
         MPI_Send(&result, 1, MPI_DOUBLE, MASTER, rank, MPI_COMM_WORLD);
     }
+    MPI_Barrier(MPI_COMM_WORLD);
     MPI_Finalize();
 }
