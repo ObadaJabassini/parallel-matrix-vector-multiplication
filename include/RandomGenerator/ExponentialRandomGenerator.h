@@ -15,7 +15,7 @@ namespace Generator {
     private:
         shared_ptr<std::exponential_distribution<double>> dist;
     public:
-        ExponentialRandomGenerator( uint32_t seed = ( uint32_t ) (rand() % 1000), double lambda = 30 );
+        ExponentialRandomGenerator(double lambda = 30 );
 
         double generate() override;
 

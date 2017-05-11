@@ -4,7 +4,7 @@ using namespace std;
 
 namespace Generator{
 
-    ExponentialRandomGenerator::ExponentialRandomGenerator( uint32_t seed, double lambda ) : RandomGenerator(seed) {
+    ExponentialRandomGenerator::ExponentialRandomGenerator( double lambda ) {
         dist = make_shared<exponential_distribution<double>>(lambda);
     }
 
@@ -25,5 +25,4 @@ namespace Generator{
             }
         }
     }
-
 }

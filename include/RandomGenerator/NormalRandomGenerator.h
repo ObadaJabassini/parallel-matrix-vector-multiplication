@@ -15,7 +15,7 @@ namespace Generator {
     private:
         shared_ptr<std::normal_distribution<double>> normal_dist;
     public:
-        NormalRandomGenerator( uint32_t seed = ( uint32_t ) (rand() % 1000), float mean = 0, float stddeviation = 1 );
+        NormalRandomGenerator(double mean = 0, double stddeviation = 1 );
 
         double generate() override;
 

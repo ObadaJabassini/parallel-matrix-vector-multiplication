@@ -11,6 +11,7 @@
 #include <QStringListModel>
 #include <QAbstractItemView>
 #include <qcustomplot.h>
+#include <RandomGenerator/RandomGenerator.h>
 
 using namespace std;
 
@@ -29,6 +30,9 @@ public:
 
 public slots:
     void generate();
+    void handleUniform(double lower, double upper);
+    void handleNormal(double mean, double stddev);
+    void handleExp(double lambda);
     void insert();
     void insertData(QString matrix, QString vector);
     void addOffset(int value);
@@ -42,6 +46,7 @@ private:
     QCPBars* timeBar;
     void initCustomPlot();
     void initEvents();
+    void generateData(Generator::RandomGenerator* generator);
     QString filePath;
     QVector<std::pair<QString,int> > offsets;
     Ui::MainWindow* ui;

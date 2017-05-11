@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>UniformDialog</class>
+    <widget class="QDialog" name="UniformDialog">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>341</width>
+                <height>192</height>
+            </rect>
+        </property>
+        <property name="windowTitle">
+            <string>Dialog</string>
+        </property>
+        <widget class="QWidget" name="">
+            <property name="geometry">
+                <rect>
+                    <x>20</x>
+                    <y>30</y>
+                    <width>281</width>
+                    <height>91</height>
+                </rect>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout">
+                <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout">
+                        <item>
+                            <widget class="QLabel" name="label">
+                                <property name="text">
+                                    <string>Your Lower Bound:</string>
+                                </property>
+                            </widget>
+                        </item>
+                        <item>
+                            <widget class="QDoubleSpinBox" name="lowerBox"/>
+                        </item>
+                    </layout>
+                </item>
+                <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_2">
+                        <item>
+                            <widget class="QLabel" name="label_2">
+                                <property name="text">
+                                    <string>Your Upper Bound:</string>
+                                </property>
+                            </widget>
+                        </item>
+                        <item>
+                            <widget class="QDoubleSpinBox" name="upperBox"/>
+                        </item>
+                    </layout>
+                </item>
+            </layout>
+        </widget>
+        <widget class="QWidget" name="">
+            <property name="geometry">
+                <rect>
+                    <x>160</x>
+                    <y>140</y>
+                    <width>168</width>
+                    <height>30</height>
+                </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+                <item>
+                    <widget class="QPushButton" name="cancelButton">
+                        <property name="text">
+                            <string>Cancel</string>
+                        </property>
+                    </widget>
+                </item>
+                <item>
+                    <widget class="QPushButton" name="okButton">
+                        <property name="text">
+                            <string>Ok</string>
+                        </property>
+                    </widget>
+                </item>
+            </layout>
+        </widget>
+    </widget>
+    <resources/>
+    <connections/>
+</ui>

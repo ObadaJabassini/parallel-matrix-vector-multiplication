@@ -2,10 +2,10 @@
 #include <RandomGenerator/UniformRandomGenerator.h>
 
 namespace Generator {
-    UniformRandomGenerator::UniformRandomGenerator( uint32_t seed, double low, double high ): RandomGenerator( seed ) {
+
+    UniformRandomGenerator::UniformRandomGenerator( double low, double high ) {
         uniform_dist = std::make_shared<std::uniform_real_distribution<double>>( low, high );
     }
-
     double UniformRandomGenerator::generate() {
         return (*uniform_dist)( this->range );
     }
@@ -23,4 +23,5 @@ namespace Generator {
             }
         }
     }
+
 }

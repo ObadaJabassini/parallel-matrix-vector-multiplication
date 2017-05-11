@@ -14,7 +14,7 @@ namespace Generator {
     private:
         std::shared_ptr<std::uniform_real_distribution<double>> uniform_dist;
     public:
-        UniformRandomGenerator( uint32_t seed = ( uint32_t ) (rand() % 1000), double low = 0, double high = 1);
+        UniformRandomGenerator(double low = 0, double high = 1);
 
         double generate() override;
 

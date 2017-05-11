@@ -17,6 +17,9 @@
 #include <Ui/offsetdialog.h>
 #include <Ui/insertdialog.h>
 #include <DataHandler/TextDataWriter.h>
+#include <Ui/uniformdialog.h>
+#include <Ui/normaldialog.h>
+#include <RandomGenerator/RubbishRandomGenerator.h>
 
 using namespace std;
 using namespace DataHandler;
@@ -32,7 +35,7 @@ MainWindow::MainWindow( QWidget* parent ) :
     QStringListModel* model = new QStringListModel( this ),
             * model1 = new QStringListModel( this );
     QStringList list;
-    list << "Uniform" << "Normal" << "Exponential";
+    list << "Uniform" << "Normal" << "Exponential" << "Rubbish";
     model->setStringList( list );
     ui->distBox->setModel( model );
     QStringList list1;
@@ -57,26 +60,28 @@ void MainWindow::initEvents() {
 }
 
 void MainWindow::generate() {
-    int size = ui->dimensionBox->value();
     QString dist = ui->distBox->currentText();
-    if ( size <= 2 ) {
-        return;
-    }
-    QString path = QFileDialog::getOpenFileName( this, tr( "Select Your file:" ));
-    auto writer = make_shared<RandomDataWriter>();
-    RandomGenerator* generator;
     if ( dist.toStdString() == "Uniform" ) {
-        generator = new UniformRandomGenerator();
+        auto dialog = new UniformDialog();
+        dialog->setWindowTitle(QString::fromStdString("Select Your parameters:"));
+        QObject::connect(dialog, SIGNAL(sendData(double, double)), this, SLOT(handleUniform(double, double)));
+        dialog->show();
     }
     else if(dist.toStdString() == "Exponential"){
-        generator = new ExponentialRandomGenerator();
+        auto dialog = new UniformDialog();
+        dialog->setWindowTitle(QString::fromStdString("Select Your parameters:"));
+        QObject::connect(dialog, SIGNAL(sendData(double)), this, SLOT(handleExp(double)));
+        dialog->show();
+    }
+    else if(dist.toStdString() == "Rubbish"){
+        generateData(new RubbishRandomGenerator());
     }
     else{
-        generator = new NormalRandomGenerator();
+        auto dialog = new NormalDialog();
+        dialog->setWindowTitle(QString::fromStdString("Select Your parameters:"));
+        QObject::connect(dialog, SIGNAL(sendData(double, double)), this, SLOT(handleNormal(double, double)));
+        dialog->show();
     }
-    auto data = writer->write( path.toStdString(), generator, size );
-    ui->resultEdit->setText(QString::fromStdString(data));
-    delete generator;
 }
 
 
@@ -248,5 +253,29 @@ void MainWindow::addOffset( int value ) {
     offsets << std::make_pair(temp, value);
     ui->listWidget->addItem(temp);
 }
+
+void MainWindow::generateData( Generator::RandomGenerator* generator ) {
+    int size = ui->dimensionBox->value();
+    if ( size <= 2 ) {
+        return;
+    }
+    QString path = QFileDialog::getOpenFileName( this, tr( "Select Your file:" ));
+    auto writer = make_shared<RandomDataWriter>();
+    auto data = writer->write( path.toStdString(), generator, size );
+    ui->resultEdit->setText(QString::fromStdString(data));
+}
+
+void MainWindow::handleUniform( double lower, double upper ) {
+    generateData(new UniformRandomGenerator(lower, upper));
+}
+
+void MainWindow::handleNormal( double mean, double stddev ) {
+    generateData(new NormalRandomGenerator(mean, stddev));
+}
+
+void MainWindow::handleExp( double lambda ) {
+    generateData(new ExponentialRandomGenerator(lambda));
+}
+
 
 #include "mainwindow.moc"

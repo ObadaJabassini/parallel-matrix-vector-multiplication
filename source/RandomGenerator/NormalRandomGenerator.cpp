@@ -5,8 +5,7 @@
 
 namespace Generator {
 
-    NormalRandomGenerator::NormalRandomGenerator( uint32_t seed, float mean, float stddeviation )
-            : RandomGenerator( seed ) {
+    NormalRandomGenerator::NormalRandomGenerator( double mean, double stddeviation ) {
         this->normal_dist = make_shared<std::normal_distribution<double>>( mean, stddeviation );
     }
 
@@ -27,5 +26,4 @@ namespace Generator {
             }
         }
     }
-
 }
