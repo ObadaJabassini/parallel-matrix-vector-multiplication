@@ -16,7 +16,7 @@ OffsetDialog::~OffsetDialog()
 }
 
 void OffsetDialog::handle(){
-    emit sendData(ui->offsetBox->value());
+    emit sendData(ui->offsetBox->text().toInt());
     this->close();
 }
 

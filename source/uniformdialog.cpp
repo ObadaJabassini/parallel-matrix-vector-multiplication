@@ -16,7 +16,7 @@ UniformDialog::~UniformDialog()
 }
 
 void UniformDialog::handle(){
-    emit sendData(ui->lowerBox->value(), ui->upperBox->value());
+    emit sendData(ui->lowerBox->text().toDouble(), ui->upperBox->text().toDouble());
     this->close();
 }
 

@@ -13,7 +13,7 @@
         <property name="windowTitle">
             <string>Dialog</string>
         </property>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
             <property name="geometry">
                 <rect>
                     <x>30</x>
@@ -33,7 +33,7 @@
                             </widget>
                         </item>
                         <item>
-                            <widget class="QDoubleSpinBox" name="meanBox"/>
+                            <widget class="QLineEdit" name="meanBox"/>
                         </item>
                     </layout>
                 </item>
@@ -47,13 +47,13 @@
                             </widget>
                         </item>
                         <item>
-                            <widget class="QDoubleSpinBox" name="devBox"/>
+                            <widget class="QLineEdit" name="devBox"/>
                         </item>
                     </layout>
                 </item>
             </layout>
         </widget>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
             <property name="geometry">
                 <rect>
                     <x>140</x>

@@ -16,7 +16,7 @@ NormalDialog::~NormalDialog()
 }
 
 void NormalDialog::handle(){
-    emit sendData(ui->meanBox->value(), ui->devBox->value());
+    emit sendData(ui->meanBox->text().toDouble(), ui->devBox->text().toDouble());
     this->close();
 }
 

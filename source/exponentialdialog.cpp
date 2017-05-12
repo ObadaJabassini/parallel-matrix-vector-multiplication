@@ -16,7 +16,7 @@ ExponentialDialog::~ExponentialDialog()
 }
 
 void ExponentialDialog::handle(){
-    emit sendData(ui->lambdaBox->value());
+    emit sendData(ui->lambdaBox->text().toDouble());
     this->close();
 }
 

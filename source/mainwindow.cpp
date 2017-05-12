@@ -20,6 +20,7 @@
 #include <Ui/uniformdialog.h>
 #include <QDialog>
 #include <Ui/normaldialog.h>
+#include <Ui/exponentialdialog.h>
 #include <RandomGenerator/RubbishRandomGenerator.h>
 
 using namespace std;
@@ -69,24 +70,24 @@ void MainWindow::generate() {
         dialog = new UniformDialog();
         dialog->setWindowTitle(QString::fromStdString("Select Your parameters:"));
         QObject::connect(dialog, SIGNAL(sendData(double, double)), this, SLOT(handleUniform(double, double)));
+        dialog->exec();
     }
     else if(dist.toStdString() == "Exponential"){
-        dialog = new UniformDialog();
+        dialog = new ExponentialDialog();
         dialog->setWindowTitle(QString::fromStdString("Select Your parameters:"));
         QObject::connect(dialog, SIGNAL(sendData(double)), this, SLOT(handleExp(double)));
+        dialog->exec();
     }
     else if(dist.toStdString() == "Normal"){
         dialog = new NormalDialog();
         dialog->setWindowTitle(QString::fromStdString("Select Your parameters:"));
         QObject::connect(dialog, SIGNAL(sendData(double, double)), this, SLOT(handleNormal(double, double)));
+        dialog->exec();
     }
     else{
         generateData(new RubbishRandomGenerator());
     }
-    if(dialog != nullptr){
-        dialog->show();
-        delete dialog;
-    }
+    delete dialog;
 }
 
 
@@ -275,7 +276,7 @@ void MainWindow::addOffset( int value ) {
 }
 
 void MainWindow::generateData( Generator::RandomGenerator* generator ) {
-    int size = ui->dimensionBox->value();
+    int size = atoi(ui->dimensionBox->text().toStdString().c_str());
     if ( size <= 2 ) {
         return;
     }

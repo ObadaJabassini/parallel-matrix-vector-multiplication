@@ -13,7 +13,7 @@
         <property name="windowTitle">
             <string>Dialog</string>
         </property>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
             <property name="geometry">
                 <rect>
                     <x>140</x>
@@ -39,7 +39,7 @@
                 </item>
             </layout>
         </widget>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
             <property name="geometry">
                 <rect>
                     <x>50</x>
@@ -57,7 +57,7 @@
                     </widget>
                 </item>
                 <item>
-                    <widget class="QDoubleSpinBox" name="lambdaBox"/>
+                    <widget class="QLineEdit" name="lambdaBox"/>
                 </item>
             </layout>
         </widget>

@@ -13,7 +13,7 @@
         <property name="windowTitle">
             <string>Dialog</string>
         </property>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
             <property name="geometry">
                 <rect>
                     <x>20</x>
@@ -33,7 +33,7 @@
                             </widget>
                         </item>
                         <item>
-                            <widget class="QDoubleSpinBox" name="lowerBox"/>
+                            <widget class="QLineEdit" name="lowerBox"/>
                         </item>
                     </layout>
                 </item>
@@ -47,13 +47,13 @@
                             </widget>
                         </item>
                         <item>
-                            <widget class="QDoubleSpinBox" name="upperBox"/>
+                            <widget class="QLineEdit" name="upperBox"/>
                         </item>
                     </layout>
                 </item>
             </layout>
         </widget>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
             <property name="geometry">
                 <rect>
                     <x>160</x>
