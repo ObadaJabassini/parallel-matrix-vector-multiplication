@@ -2,6 +2,8 @@
 #include <QtCore/QString>
 #include <QtCore/QStringList>
 #include <iostream>
+#include <thread>
+#include <mutex>
 
 using namespace std;
 
@@ -13,15 +15,24 @@ namespace Performance {
 
     std::pair<std::vector<double>, std::string> Benchmarker::benchmark() {
         auto len = this->multipliers.size();
-        std::vector<double> times;
-        auto t = QString::fromStdString(multipliers[0]->multiply( false));
-        auto t1 = t.split("\n");
-        times.push_back(t1[1].toDouble());
-        cout << t1[0].toStdString() << endl;
+        std::vector<double> times( len );
+        auto t = QString::fromStdString( multipliers[0]->multiply( false ));
+        auto t1 = t.split( "\n" );
+        times[0] = t1[1].toDouble();
+        thread threads[len - 1];
+        mutex lock;
+        auto fun = [ & ]( MatrixMultiplier* multiplier, int index ) {
+            //lock.lock();
+            times[index] = std::stod( multipliers[index]->multiply( true ));
+            //lock.unlock();
+        };
         for ( int i = 1; i < len; ++i ) {
-            times.push_back( std::stod( multipliers[i]->multiply( true )));
+            threads[i - 1] = thread( fun, multipliers[i], i );
         }
-        return std::make_pair(times, t1[0].toStdString());
+        for ( auto& tt : threads ) {
+            tt.join();
+        }
+        return std::make_pair( times, t1[0].toStdString());
     }
 
     std::pair<std::vector<double>, std::string> Benchmarker::measure() {
