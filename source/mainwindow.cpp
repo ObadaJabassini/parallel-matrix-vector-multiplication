@@ -1,5 +1,5 @@
-#include "Ui/mainwindow.h"
 #include <iostream>
+#include <Ui/mainwindow.h>
 #include <DataHandler/RandomDataWriter.h>
 #include <RandomGenerator/RandomGenerator.h>
 #include <QtWidgets/QPushButton>

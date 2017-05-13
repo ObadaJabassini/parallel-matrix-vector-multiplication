@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.6)
 set(CMAKE_C_COMPILER mpicc)
 set(CMAKE_CXX_COMPILER mpic++)
 set(GCC_THREAD_COMPILE_FLAGS "-pthread")
-project(Project)
 set(CMAKE_SHARED_LINKER_FLAGS "-lqwt-qt5")
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS} ${GCC_THREAD_COMPILE_FLAGS}")
@@ -10,31 +9,11 @@ set(SOURCE_FILES /home/ojabassini/qcustomplot/qcustomplot.h /home/ojabassini/qcu
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/bin)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
-SET(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
-find_path(QWT_INCLUDE_DIR qwt.h
-        PATHS /usr/local/qwt /usr/local /usr/include/qwt-qt4 /usr/include/qwt
-        /usr/include/qwt5 /usr /opt/local/include/qwt
-        HINTS $ENV{QWT_ROOT} ${QWT_ROOT}
-        PATH_SUFFIXES include
-        )
-set(QWT_NAMES ${QWT_NAMES} qwt-qt4 qwt5 qwt libqwt-qt4 libqwt)
-find_library(QWT_LIBRARY
-        NAMES ${QWT_NAMES}
-        PATHS /usr/local/qwt /usr/local /usr $ENV{QWT_ROOT} ${QWT_ROOT}
-        PATH_SUFFIXES lib
-        )
-if(QWT_LIBRARY)
-    set(QWT_LIBRARIES ${QWT_LIBRARY})
-    set(QWT_FOUND YES)
-endif(QWT_LIBRARY)
-include(FindPackageHandleStandardArgs)
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(QWT DEFAULT_MSG QWT_LIBRARIES)
-mark_as_advanced(QWT_INCLUDE_DIR QWT_LIBRARY)
+project(Project)
 add_executable(Project ${SOURCE_FILES})
-include_directories("/home/ojabasini/")
 add_definitions(${Qt5Widgets_DEFINITIONS})
-set(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 find_package(Qt5Widgets REQUIRED)
