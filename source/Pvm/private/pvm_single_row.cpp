@@ -9,7 +9,6 @@ using namespace std;
 using namespace DataHandler;
 
 int main( int argc, char** argv ) {
-    double* vector;
     double* row;
     int* others;
     pvm_catchout( stdout );
@@ -21,7 +20,7 @@ int main( int argc, char** argv ) {
     double element;
     auto start = chrono::steady_clock::now();
     if ( is_parent ) {
-        double** matrix;
+        double** matrix, *vector;
         auto reader = make_shared<TextDataReader>();
         size = reader->read( argv[1],
                              matrix,
@@ -69,30 +68,26 @@ int main( int argc, char** argv ) {
     pvm_initsend(PvmDataDefault);
     pvm_pkdouble(&element, 1, 1);
     pvm_mcast(others, size - 1, index);
-    vector = new double[size];
-    vector[index] = element;
+    double result = element * row[index];
     for ( int l = 0; l < size - 1; ++l ) {
         int temp;
         int buffer = pvm_recv( -1,
                                -1 );
         pvm_bufinfo( buffer, NULL, &temp, NULL );
         pvm_upkdouble(&element, 1, 1);
-        vector[temp] = element;
-    }
-    double result = 0;
-    for ( int m = 0; m < size; ++m ) {
-        result += row[m] * vector[m];
+        result += row[temp] * element;
     }
     if(is_parent){
-        vector[0] = result;
+        double* res = new double[size];
+        res[0] = result;
         for ( int i = 0; i < size - 1; ++i ) {
             int buffer = pvm_recv(-1, -1);
             pvm_bufinfo( buffer, NULL, &index, NULL );
             pvm_upkdouble(&result, 1, 1);
-            vector[index] = result;
+            res[index] = result;
         }
         auto end = chrono::steady_clock::now();
-        ResultTextDataWriter().write( argv[2], vector, size, chrono::duration<double, milli>( end - start ).count());
+        ResultTextDataWriter().write( argv[2], res, size, chrono::duration<double, milli>( end - start ).count());
     }
     else{
         pvm_initsend(PvmDataDefault);

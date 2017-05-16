@@ -14,12 +14,12 @@ int main( int argc, char** argv ) {
     int tid = pvm_mytid();
     int parent = pvm_parent();
     bool isParent = (parent == PvmNoParent) || (parent == PvmParentNotSet);
-    double* vector, * row, * col, element;
+    double* col, element;
     int* others;
     int size, index = 0;
     auto start = chrono::steady_clock::now();
     if ( isParent ) {
-        double** matrix;
+        double** matrix, *vector;
         auto reader = make_shared<TextDataReader>();
         size = reader->read( argv[1],
                              matrix,
@@ -37,7 +37,7 @@ int main( int argc, char** argv ) {
         for ( int i = 1; i < size; ++i ) {
             pvm_initsend( PvmDataDefault );
             pvm_pkint( &size, 1, 1 );
-            pvm_pkdouble( matrix[0] + i, size, size + 1);
+            pvm_pkdouble( matrix[0] + i, size, size + 1 );
             pvm_pkdouble( &vector[i], 1, 1 );
             pvm_send( others[i - 1], i );
         }
@@ -63,10 +63,7 @@ int main( int argc, char** argv ) {
             }
         }
     }
-    vector = new double[size];
-    row = new double[size];
-    row[index] = col[index];
-    vector[index] = element;
+    double result = col[index] * element;
     for ( int i = 0, j = 0; i < size; ++i ) {
         if ( i != index ) {
             pvm_initsend( PvmDataDefault );
@@ -82,28 +79,20 @@ int main( int argc, char** argv ) {
         double temp1, temp2;
         pvm_upkdouble( &temp1, 1, 1 );
         pvm_upkdouble( &temp2, 1, 1 );
-        vector[temp] = temp2;
-        row[temp] = temp1;
-    }
-//    for ( int i = 0; i < size; ++i ) {
-//        cout << row[i] << " ";
-//    }
-//    cout << endl;
-    double result = 0;
-    for ( int i = 0; i < size; ++i ) {
-        result += vector[i] * row[i];
+        result += temp1 * temp2;
     }
     if ( isParent ) {
-        vector[0] = result;
+        double* res = new double[size];
+        res[0] = result;
         for ( int i = 0; i < size - 1; ++i ) {
             int temp;
             int buffer = pvm_recv( -1, -1 );
             pvm_bufinfo( buffer, NULL, &temp, NULL );
             pvm_upkdouble( &element, 1, 1 );
-            vector[temp] = element;
+            res[temp] = element;
         }
         auto end = chrono::steady_clock::now();
-        ResultTextDataWriter().write( argv[2], vector, size, chrono::duration<double, milli>( end - start ).count());
+        ResultTextDataWriter().write( argv[2], res, size, chrono::duration<double, milli>( end - start ).count());
     } else {
         pvm_initsend( PvmDataDefault );
         pvm_pkdouble( &result, 1, 1 );

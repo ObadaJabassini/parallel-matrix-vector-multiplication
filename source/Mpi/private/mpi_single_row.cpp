@@ -15,10 +15,10 @@ int main( int argc, char** argv ) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank );
     MPI_Comm_size(MPI_COMM_WORLD, &size );
     double* row = new double[size];
-    double* vector = new double[size];
+    double element;
     auto start = chrono::steady_clock::now();
     if ( rank == MASTER ) {
-        double** matrix;
+        double** matrix,*vector;
         auto reader = make_shared<TextDataReader>();
         reader->read( argv[1],
                       matrix,
@@ -29,39 +29,34 @@ int main( int argc, char** argv ) {
             MPI_Send(&vector[i], 1, MPI_DOUBLE, i, i, MPI_COMM_WORLD);
         }
         row = matrix[0];
-        double temp = vector[0];
-        vector = new double[size];
-        vector[0] = temp;
+        element = vector[0];
+        delete vector;
     }
     else{
         MPI_Recv(row, size, MPI_DOUBLE, MASTER, MPI_ANY_TAG, MPI_COMM_WORLD, NULL);
-        MPI_Recv(&vector[rank], 1, MPI_DOUBLE, MASTER, MPI_ANY_TAG, MPI_COMM_WORLD, NULL);
+        MPI_Recv(&element, 1, MPI_DOUBLE, MASTER, MPI_ANY_TAG, MPI_COMM_WORLD, NULL);
     }
+    double result = row[rank] * element;
     for ( int i = 0; i < size; ++i ) {
         if(i != rank){
-            MPI_Send(&vector[rank], 1, MPI_DOUBLE, i, rank, MPI_COMM_WORLD);
+            MPI_Send(&element, 1, MPI_DOUBLE, i, rank, MPI_COMM_WORLD);
         }
     }
     for ( int i = 0; i < size - 1; ++i ) {
-        double element;
         MPI_Status status;
         MPI_Recv(&element, 1, MPI_DOUBLE, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
-        vector[status.MPI_TAG] = element;
-    }
-    double result = 0;
-    for ( int i = 0; i < size; ++i ) {
-        result += row[i] * vector[i];
+        result += row[status.MPI_TAG] * element;
     }
     if(rank == MASTER){
-        vector[0] = result;
+        double* res = new double[size];
+        res[0] = result;
         for ( int i = 0; i < size - 1; ++i ) {
-            double element;
             MPI_Status status;
             MPI_Recv(&element, 1, MPI_DOUBLE, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
-            vector[status.MPI_TAG] = element;
+            res[status.MPI_TAG] = element;
         }
         auto end = chrono::steady_clock::now();
-        ResultTextDataWriter().write( argv[2], vector, size, chrono::duration<double, milli>( end - start ).count());
+        ResultTextDataWriter().write( argv[2], res, size, chrono::duration<double, milli>( end - start ).count());
     }
     else{
         MPI_Send(&result, 1, MPI_DOUBLE, MASTER, rank, MPI_COMM_WORLD);
