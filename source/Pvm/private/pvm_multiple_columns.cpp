@@ -13,12 +13,11 @@ int main( int argc, char** argv ) {
     char* groupName = "multiple_columns";
     int tid = pvm_mytid();
     int parent_tid = pvm_parent();
-    bool is_parent = (parent_tid == PvmNoParent) || (parent_tid == PvmParentNotSet);
     pvm_catchout( stdout );
+    bool is_parent = (parent_tid == PvmNoParent) || (parent_tid == PvmParentNotSet);
     int rows, cols, block_size, count;
     double** matrix;
     double* vector;
-    double* part;
     auto start = chrono::steady_clock::now();
     if ( is_parent ) {
         block_size = stoi(argv[3]);
@@ -29,9 +28,9 @@ int main( int argc, char** argv ) {
         start = chrono::steady_clock::now();
         cols = rows;
         if(cols % block_size != 0){
-            cols = rows + (block_size - cols % block_size);
-            auto temp = new double*[rows];
-            for ( int i = 0; i < cols; ++i ) {
+            cols = rows + (block_size - rows % block_size);
+            double** temp = new double*[rows];
+            for ( int i = 0; i < rows; ++i ) {
                 temp[i] = new double[cols];
             }
             for ( int i = 0; i < rows; ++i ) {
@@ -105,14 +104,14 @@ int main( int argc, char** argv ) {
     else{
         pvm_scatter( rec, NULL, rows * block_size + block_size, PVM_DOUBLE, 2, groupName, allRoot );
     }
-    vector = new double[cols];
-    for ( int k = 0; k < cols; ++k ) {
+    vector = new double[rows];
+    for ( int k = 0; k < rows; ++k ) {
         vector[k] = 0;
-        for ( int i = 0; i < rows * block_size; i += rows + 1 ) {
+        for ( int i = 0; i < rows * block_size + block_size - rows; i += rows + 1 ) {
             vector[k] += rec[i + k] * rec[i + rows];
         }
     }
-    pvm_reduce( PvmSum, vector, cols, PVM_DOUBLE, 4, groupName, allRoot );
+    pvm_reduce( PvmSum, vector, rows, PVM_DOUBLE, 4, groupName, allRoot );
     if ( is_parent ) {
         auto end = chrono::steady_clock::now();
         ResultTextDataWriter().write( argv[2], vector, rows, chrono::duration<double, milli>( end - start ).count());

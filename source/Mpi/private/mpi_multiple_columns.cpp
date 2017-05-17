@@ -27,7 +27,7 @@ int main(int argc, char** argv){
         if(cols % offset != 0){
             cols = rows + (offset - cols % offset);
             auto temp = new double*[rows];
-            for ( int i = 0; i < cols; ++i ) {
+            for ( int i = 0; i < rows; ++i ) {
                 temp[i] = new double[cols];
             }
             for ( int i = 0; i < rows; ++i ) {
