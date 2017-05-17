@@ -32,8 +32,8 @@ int main( int argc, char** argv ) {
                              vector );
         start = chrono::steady_clock::now();
         rows = cols;
-        if ( cols % block_size != 0 ) {
-            rows = cols + cols % block_size;
+        if ( rows % block_size != 0 ) {
+            rows = cols + (block_size - cols % block_size);
             temp = new double[rows * cols];
             for ( int i = 0; i < cols; ++i ) {
                 for ( int j = 0; j < cols; ++j ) {

@@ -27,13 +27,14 @@ namespace DataHandler {
         }
         bool readingMat = true;
         int currentRow = 0;
+        char delim = lines[1].find(' ') != string::npos? ' ' : ',';
         for ( int i = 0; i < len; ++i ) {
             if ( lines[i] == "matrix:" ) {
                 readingMat = true;
             } else if ( lines[i] == "vector:" ) {
                 readingMat = false;
             } else {
-                auto row = TextDataReader::split( lines[i], ' ' );
+                auto row = TextDataReader::split( lines[i], delim);
                 if ( readingMat ) {
                     for ( int j = 0; j < size; ++j ) {
                         mat[currentRow][j] = stod( row[j] );

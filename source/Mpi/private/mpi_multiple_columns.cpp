@@ -25,7 +25,7 @@ int main(int argc, char** argv){
         start = chrono::steady_clock::now();
         cols = rows;
         if(cols % offset != 0){
-            cols = rows + cols % offset;
+            cols = rows + (offset - cols % offset);
             auto temp = new double*[rows];
             for ( int i = 0; i < cols; ++i ) {
                 temp[i] = new double[cols];

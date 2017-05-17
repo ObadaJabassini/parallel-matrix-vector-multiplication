@@ -29,7 +29,7 @@ int main( int argc, char** argv ) {
         start = chrono::steady_clock::now();
         cols = rows;
         if(cols % block_size != 0){
-            cols = rows + cols % block_size;
+            cols = rows + (block_size - cols % block_size);
             auto temp = new double*[rows];
             for ( int i = 0; i < cols; ++i ) {
                 temp[i] = new double[cols];
