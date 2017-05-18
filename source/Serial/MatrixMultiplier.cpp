@@ -8,7 +8,6 @@
 #include <Pvm/SingleColumnMultiplier.h>
 #include <Pvm/MultipleRowMultiplier.h>
 #include <Pvm/MultipleColumnMultiplier.h>
-#include <Pvm/MultipleColumnMultiplier.h>
 #include <Mpi/MultipleRowMultiplier.h>
 #include <Mpi/SingleColumnMultiplier.h>
 #include <Mpi/SingleRowMultiplier.h>
@@ -31,6 +30,9 @@ MatrixMultiplier* MatrixMultiplier::create( std::string name, std::string filePa
         return new SerialMatrixMultiplier(filePath);
     }
     if(name == "Pvm_Single_Row"){
+        return new Pvm::SingleRowMultiplier(filePath);
+    }
+    if(name == "Pvm_Single_Row_Second"){
         return new Pvm::SingleRowMultiplier(filePath);
     }
     if(name == "Pvm_Single_Column"){

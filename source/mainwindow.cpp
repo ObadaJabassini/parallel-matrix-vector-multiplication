@@ -43,7 +43,7 @@ MainWindow::MainWindow( QWidget* parent ) :
     model->setStringList( list );
     ui->distBox->setModel( model );
     QStringList list1;
-    list1 << "Serial" << "Pvm_Single_Row" << "Pvm_Multiple_Row" << "Pvm_Single_Column" << "Pvm_Single_Column_Second" << "Pvm_Multiple_Column"
+    list1 << "Serial" << "Pvm_Single_Row" << "Pvm_Single_Row_Second" << "Pvm_Multiple_Row" << "Pvm_Single_Column" << "Pvm_Single_Column_Second" << "Pvm_Multiple_Column"
           << "Mpi_Single_Row" << "Mpi_Multiple_Row" << "Mpi_Single_Column" << "Mpi_Single_Column_Second" << "Mpi_Multiple_Column";
     model1->setStringList( list1 );
     ui->choiceBox->setModel( model1 );
