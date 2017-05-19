@@ -135,7 +135,8 @@ void MainWindow::loadButton() {
 
 void MainWindow::insertData( QString matrix, QString vector ) {
     string filePath = QFileDialog::getOpenFileName( this, tr( "Select Your file:" )).toStdString();
-    auto sp = vector.split(" ");
+    QString delimiter = vector.contains(QString::fromStdString(" ")) ? QString::fromStdString(" ") : QString::fromStdString(",");
+    auto sp = vector.split(delimiter);
     auto ma = matrix.split("\n");
     double* vec, **mat;
     int size = sp.count();
@@ -148,7 +149,7 @@ void MainWindow::insertData( QString matrix, QString vector ) {
         vec[i] = std::stod(sp[i].toStdString());
     }
     for ( int i = 0; i < size; ++i ) {
-        auto temp = ma[i].split(" ");
+        auto temp = ma[i].split(delimiter);
         for ( int j = 0; j < size; ++j ) {
             mat[i][j] = std::stod(temp[j].toStdString());
         }
