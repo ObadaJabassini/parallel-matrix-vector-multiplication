@@ -32,7 +32,9 @@ MainWindow::MainWindow( QWidget* parent ) :
         QMainWindow( parent ) {
     ui = new Ui::MainWindow();
     ui->setupUi( this );
-    setWindowTitle(QString::fromStdString("Project"));
+    const QRect screen = QApplication::desktop()->screenGeometry();
+    this->move( screen.center() - this->rect().center() + QPoint(0, -70) );
+    setWindowTitle(QString::fromStdString("Matrix-Vector-Multiplication"));
     customPlot = ui->plotWidget;
     ui->tabWidget->setCurrentIndex(0);
     initCustomPlot();
