@@ -83,7 +83,7 @@ int main( int argc, char** argv ) {
         pvm_upkint(&block_size, 1, 1);
         pvm_upkint(&count, 1, 1);
     }
-    int gid = pvm_joingroup(groupName);
+    pvm_joingroup(groupName);
     pvm_barrier(groupName, count);
     int allRoot;
     if ( is_parent )

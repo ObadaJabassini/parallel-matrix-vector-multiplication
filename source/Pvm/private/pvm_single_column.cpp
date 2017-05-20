@@ -52,7 +52,7 @@ int main( int argc, char** argv ) {
                     1 );
         vector = new double[size];
     }
-    int gid = pvm_joingroup( groupName );
+    pvm_joingroup( groupName );
     pvm_barrier( groupName, size );
     int allRoot;
     if ( is_parent )

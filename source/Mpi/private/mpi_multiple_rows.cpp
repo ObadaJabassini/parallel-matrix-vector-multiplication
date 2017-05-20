@@ -70,6 +70,10 @@ int main( int argc, char** argv ) {
                 matrix[i * cols + j] = temp[i * cols + j];
             }
         }
+        for ( int i = 0; i < cols; ++i ) {
+            delete mat[i];
+        }
+        delete mat;
     }
     else{
         MPI_Recv(&rows, 1, MPI_INT, MASTER, MPI_ANY_TAG, MPI_COMM_WORLD, NULL);
@@ -123,4 +127,7 @@ int main( int argc, char** argv ) {
     }
     MPI_Barrier(MPI_COMM_WORLD);
     MPI_Finalize();
+    delete matrix;
+    delete vector;
+    delete part;
 }

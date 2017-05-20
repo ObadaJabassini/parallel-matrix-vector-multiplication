@@ -15,7 +15,7 @@ int main( int argc, char** argv ) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank );
     MPI_Comm_size(MPI_COMM_WORLD, &size );
     auto start = chrono::steady_clock::now();
-    double* vector = new double[size + 1];
+    auto vector = new double[size + 1];
     if ( rank == MASTER ) {
         auto reader = make_shared<TextDataReader>();
         double** matrix, *temp;
@@ -31,6 +31,11 @@ int main( int argc, char** argv ) {
             scatterData[(i + 1) * size + i] = temp[i];
         }
         MPI_Scatter(scatterData, size + 1, MPI_DOUBLE, vector, size + 1, MPI_DOUBLE, MASTER, MPI_COMM_WORLD);
+        delete temp;
+        for ( int i = 0; i < size; ++i ) {
+            delete matrix[i];
+        }
+        delete matrix;
     }
     else{
         MPI_Scatter(NULL, size + 1, MPI_DOUBLE, vector, size + 1, MPI_DOUBLE, MASTER, MPI_COMM_WORLD);
@@ -38,12 +43,14 @@ int main( int argc, char** argv ) {
     for ( int i = 0; i < size; ++i ) {
         vector[i] *= vector[size];
     }
+    MPI_Barrier(MPI_COMM_WORLD);
     auto result = new double[size];
     MPI_Reduce(vector, result, size, MPI_DOUBLE, MPI_SUM, MASTER, MPI_COMM_WORLD);
     if(rank == MASTER){
         auto end = chrono::steady_clock::now();
         ResultTextDataWriter().write( argv[2], result, size, chrono::duration<double, milli>( end - start ).count());
     }
-    MPI_Barrier(MPI_COMM_WORLD);
     MPI_Finalize();
+    delete result;
+    delete vector;
 }
