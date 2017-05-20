@@ -257,7 +257,7 @@ void MainWindow::initCustomPlot() {
     timeBar->setStackingGap( 1 );
     timeBar->setName( "Time" );
     //auto temp = QColor( 111, 9, 176 );
-    auto temp = QColor( 20, 20, 20 );
+    auto temp = QColor( 100, 100, 100 );
     timeBar->setPen( QPen( temp.lighter( 170 )));
     timeBar->setBrush( temp);
 }
