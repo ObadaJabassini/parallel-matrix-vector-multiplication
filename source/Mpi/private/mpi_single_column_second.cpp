@@ -36,11 +36,6 @@ int main( int argc, char** argv ) {
         for ( int j = 0; j < size; ++j ) {
             col[j] = matrix[j][0];
         }
-        delete vector;
-        for ( int i = 0; i < size; ++i ) {
-            delete matrix[i];
-        }
-        delete matrix;
     } else {
         auto buffer = new double[size + 1];
         MPI_Recv( buffer, size + 1, MPI_DOUBLE, MASTER, MPI_ANY_TAG, MPI_COMM_WORLD, NULL );
@@ -49,7 +44,6 @@ int main( int argc, char** argv ) {
         for ( int i = 0; i < size; ++i ) {
             col[i] = buffer[i];
         }
-        delete buffer;
     }
     double* send;
     for ( int i = 0; i < size; ++i ) {
@@ -58,7 +52,6 @@ int main( int argc, char** argv ) {
             send[0] = col[i];
             send[1] = element;
             MPI_Send( send, 2, MPI_DOUBLE, i, rank, MPI_COMM_WORLD);
-            delete send;
         }
     }
     double* rec;
@@ -69,7 +62,6 @@ int main( int argc, char** argv ) {
         MPI_Recv( rec, 2, MPI_DOUBLE, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status );
         auto temp = status.MPI_TAG;
         result += rec[0] * rec[1];
-        delete rec;
     }
     if ( rank == MASTER ) {
         double* res = new double[size];
@@ -86,6 +78,4 @@ int main( int argc, char** argv ) {
     }
     MPI_Barrier(MPI_COMM_WORLD);
     MPI_Finalize();
-    delete rec;
-    delete col;
 }
