@@ -19,5 +19,4 @@ namespace Mpi {
     };
 }
 
-
 #endif //PROJECT_MULTIPLEROWMULTIPLIER_H
