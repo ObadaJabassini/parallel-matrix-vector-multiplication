@@ -10,6 +10,7 @@
 #include <Pvm/SingleColumnMultiplierSecond.h>
 #include <Pvm/MultipleColumnMultiplier.h>
 #include <Mpi/MultipleRowMultiplier.h>
+#include <Mpi/MultipleRowMultiplierSecond.h>
 #include <Mpi/SingleColumnMultiplier.h>
 #include <Mpi/SingleRowMultiplier.h>
 #include <Mpi/SingleRowMultiplierSecond.h>
@@ -62,6 +63,9 @@ MatrixMultiplier* MatrixMultiplier::create( std::string name, std::string filePa
     }
     if(name == "Mpi_Multiple_Row"){
         return new Mpi::MultipleRowMultiplier(filePath, offset);
+    }
+    if(name == "Mpi_Multiple_Row_Second"){
+        return new Mpi::MultipleRowMultiplierSecond(filePath, offset);
     }
     if(name == "Mpi_Multiple_Column"){
         return new Mpi::MultipleColumnMultiplier(filePath, offset);
