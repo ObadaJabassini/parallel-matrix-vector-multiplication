@@ -17,7 +17,7 @@ int main(int argc, char** argv){
     double* row = new double[size], *vector = new double[size], element;
     auto start = chrono::steady_clock::now();
     if(rank == MASTER){
-        double** matrix,*vector;
+        double** matrix;
         auto reader = make_shared<TextDataReader>();
         reader->read( argv[1],
                       matrix,
@@ -37,7 +37,6 @@ int main(int argc, char** argv){
         MPI_Scatter(NULL, 1, MPI_DOUBLE, &element, 1, MPI_DOUBLE, MASTER, MPI_COMM_WORLD);
     }
     MPI_Allgather(&element, 1, MPI_DOUBLE, vector, 1, MPI_DOUBLE, MPI_COMM_WORLD);
-
     double result = 0;
     for ( int i = 0; i < size; ++i ) {
         result += vector[i] * row[i];

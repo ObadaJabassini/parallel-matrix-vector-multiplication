@@ -16,7 +16,7 @@ int main( int argc, char** argv ) {
     bool isParent = (parent == PvmNoParent) || (parent == PvmParentNotSet);
     double* col, element;
     int* others;
-    int size, index = 0;
+    int size, index;
     auto start = chrono::steady_clock::now();
     if ( isParent ) {
         double** matrix, *vector;
@@ -46,6 +46,7 @@ int main( int argc, char** argv ) {
         for ( int j = 0; j < size; ++j ) {
             col[j] = matrix[j][0];
         }
+        index = 0;
     } else {
         int buffer = pvm_recv( parent, -1 );
         pvm_bufinfo( buffer, NULL, &index, NULL );
